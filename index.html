@@ -1,0 +1,959 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gable Homes — BTZL workflow</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --ink: #1a1a1a;
+    --ink-light: #666;
+    --ink-faint: #999;
+    --border: #e0e0e0;
+    --bg: #fafafa;
+    --white: #ffffff;
+    --weekly: #1a3a5c;
+    --monthly: #2d6a4f;
+    --accent: #c0392b;
+    --tag-bg: #f0f0f0;
+    --selected-bg: #1a3a5c;
+    --selected-fg: #ffffff;
+    --must-bg: #fff8f0;
+    --must-border: #f0c080;
+    --radius: 4px;
+    --gap: 24px;
+  }
+
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-size: 14px;
+    line-height: 1.6;
+    color: var(--ink);
+    background: var(--bg);
+    min-height: 100vh;
+  }
+
+  /* ── Header ── */
+  header {
+    background: var(--white);
+    border-bottom: 1px solid var(--border);
+    padding: 20px 32px;
+    display: flex;
+    align-items: baseline;
+    gap: 16px;
+  }
+  header h1 { font-size: 18px; font-weight: 600; letter-spacing: -0.3px; }
+  header span { font-size: 13px; color: var(--ink-light); }
+
+  /* ── Tabs ── */
+  nav {
+    background: var(--white);
+    border-bottom: 1px solid var(--border);
+    padding: 0 32px;
+    display: flex;
+    gap: 0;
+  }
+  nav button {
+    background: none;
+    border: none;
+    border-bottom: 2px solid transparent;
+    padding: 12px 20px;
+    font-size: 14px;
+    color: var(--ink-light);
+    cursor: pointer;
+    transition: color 0.15s, border-color 0.15s;
+  }
+  nav button:hover { color: var(--ink); }
+  nav button.active { color: var(--ink); border-bottom-color: var(--ink); font-weight: 500; }
+
+  /* ── Main layout ── */
+  main { padding: 32px; max-width: 1100px; margin: 0 auto; }
+
+  .view { display: none; }
+  .view.active { display: block; }
+
+  /* ── Section labels ── */
+  .section-label {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    margin-bottom: 12px;
+  }
+
+  /* ── Phase map (Explore tab) ── */
+  .phase-map { margin-bottom: 40px; }
+
+  .cycle-track {
+    margin-bottom: 28px;
+  }
+  .cycle-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 12px;
+  }
+  .cycle-badge {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    padding: 3px 10px;
+    border-radius: 20px;
+    color: var(--white);
+  }
+  .cycle-badge.weekly { background: var(--weekly); }
+  .cycle-badge.monthly { background: var(--monthly); }
+
+  .phase-nodes {
+    display: flex;
+    align-items: stretch;
+    gap: 0;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .bookend-node {
+    padding: 10px 16px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    background: var(--white);
+    font-size: 13px;
+    color: var(--ink-faint);
+    font-style: italic;
+    display: flex;
+    align-items: center;
+  }
+
+  .phase-node {
+    padding: 10px 18px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    background: var(--white);
+    font-size: 13px;
+    cursor: pointer;
+    transition: background 0.12s, border-color 0.12s, color 0.12s;
+    user-select: none;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .phase-node:hover { border-color: #aaa; }
+  .phase-node.active-weekly {
+    background: var(--weekly);
+    border-color: var(--weekly);
+    color: var(--white);
+  }
+  .phase-node.active-monthly {
+    background: var(--monthly);
+    border-color: var(--monthly);
+    color: var(--white);
+  }
+  .phase-node .count {
+    font-size: 11px;
+    opacity: 0.65;
+  }
+
+  /* ── Phase detail panel ── */
+  .phase-detail {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 24px;
+    margin-top: 8px;
+    animation: fadeIn 0.15s ease;
+  }
+  .phase-detail h3 {
+    font-size: 15px;
+    font-weight: 600;
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .phase-detail h3 .phase-tag {
+    font-size: 11px;
+    font-weight: 500;
+    padding: 2px 8px;
+    border-radius: 20px;
+    color: var(--white);
+  }
+  .phase-detail h3 .phase-tag.weekly { background: var(--weekly); }
+  .phase-detail h3 .phase-tag.monthly { background: var(--monthly); }
+
+  /* ── People row ── */
+  .people-section { margin-top: 32px; margin-bottom: 8px; }
+  .people-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 12px;
+  }
+  .person-chip {
+    padding: 7px 16px;
+    border: 1px solid var(--border);
+    border-radius: 100px;
+    background: var(--white);
+    font-size: 13px;
+    cursor: pointer;
+    transition: background 0.12s, border-color 0.12s, color 0.12s;
+    user-select: none;
+  }
+  .person-chip:hover { border-color: #aaa; }
+  .person-chip.active {
+    background: var(--ink);
+    border-color: var(--ink);
+    color: var(--white);
+  }
+
+  /* ── Person panel ── */
+  .person-detail {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 24px;
+    margin-top: 12px;
+    animation: fadeIn 0.15s ease;
+  }
+  .person-detail h3 { font-size: 15px; font-weight: 600; margin-bottom: 4px; }
+  .person-role { font-size: 13px; color: var(--ink-light); margin-bottom: 20px; }
+  .person-detail h4 { font-size: 12px; font-weight: 600; color: var(--ink-faint); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 12px; }
+
+  /* ── Activity list (shared) ── */
+  .activity-list { list-style: none; }
+  .activity-item {
+    border-bottom: 1px solid var(--border);
+    cursor: pointer;
+  }
+  .activity-item:last-child { border-bottom: none; }
+  .activity-item-row {
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+    padding: 10px 0;
+    transition: background 0.1s;
+  }
+  .activity-item-row:hover { background: #f5f5f5; margin: 0 -12px; padding: 10px 12px; border-radius: var(--radius); }
+  .activity-num {
+    font-size: 11px;
+    color: var(--ink-faint);
+    min-width: 28px;
+    font-variant-numeric: tabular-nums;
+  }
+  .activity-title { flex: 1; font-size: 13px; }
+  .activity-who {
+    font-size: 12px;
+    color: var(--ink-light);
+    white-space: nowrap;
+  }
+
+  /* ── Detail card ── */
+  .detail-card {
+    background: #f8f8f8;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 20px;
+    margin-top: 4px;
+    animation: fadeIn 0.12s ease;
+  }
+  .detail-card-header {
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 16px;
+  }
+  .detail-fields { display: flex; flex-direction: column; gap: 10px; }
+  .detail-field {
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+  }
+  .detail-field-label {
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--ink-faint);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    min-width: 72px;
+    padding-top: 1px;
+  }
+  .detail-field-value {
+    font-size: 13px;
+    color: var(--ink);
+    flex: 1;
+    cursor: text;
+    border-radius: 3px;
+    padding: 1px 4px;
+    margin: -1px -4px;
+    transition: background 0.1s;
+  }
+  .detail-field-value:hover { background: #ebebeb; }
+  .detail-field-value[contenteditable="true"] {
+    background: var(--white);
+    outline: 1px solid #aaa;
+    cursor: text;
+  }
+  .must-field .detail-field-value {
+    background: var(--must-bg);
+    border: 1px solid var(--must-border);
+    border-radius: var(--radius);
+    padding: 4px 8px;
+    margin: 0;
+    font-size: 13px;
+  }
+  .must-field .detail-field-value:hover { background: #fff4e0; }
+
+  .edit-note {
+    margin-top: 12px;
+    font-size: 11px;
+    color: var(--ink-faint);
+    font-style: italic;
+  }
+
+  /* ── Receives-from ── */
+  .receives-field .detail-field-value {
+    color: var(--ink-light);
+    font-size: 12px;
+  }
+
+  /* ── Full list tab ── */
+  .phase-group { margin-bottom: 36px; }
+  .phase-group-label {
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+    color: var(--white);
+    padding: 4px 10px;
+    border-radius: var(--radius);
+    display: inline-block;
+    margin-bottom: 12px;
+  }
+  .phase-group-label.weekly { background: var(--weekly); }
+  .phase-group-label.monthly { background: var(--monthly); }
+
+  /* ── Flow tab ── */
+  .flow-controls {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 28px;
+  }
+  .flow-phase-btn {
+    padding: 8px 16px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    background: var(--white);
+    font-size: 13px;
+    cursor: pointer;
+    transition: background 0.12s, border-color 0.12s, color 0.12s;
+  }
+  .flow-phase-btn:hover { border-color: #aaa; }
+  .flow-phase-btn.active-weekly {
+    background: var(--weekly);
+    border-color: var(--weekly);
+    color: var(--white);
+  }
+  .flow-phase-btn.active-monthly {
+    background: var(--monthly);
+    border-color: var(--monthly);
+    color: var(--white);
+  }
+
+  .swimlane-container {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    overflow-x: auto;
+  }
+  .swimlane-header {
+    padding: 16px 20px 12px;
+    border-bottom: 1px solid var(--border);
+    font-size: 15px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .swimlane-header .cycle-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+  .swimlane-header .cycle-dot.weekly { background: var(--weekly); }
+  .swimlane-header .cycle-dot.monthly { background: var(--monthly); }
+
+  .swimlane-grid {
+    display: grid;
+    min-width: max-content;
+  }
+  .swimlane-row {
+    display: contents;
+  }
+  .swimlane-role-cell {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--ink-faint);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    padding: 12px 16px;
+    background: #f8f8f8;
+    border-right: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    white-space: nowrap;
+    display: flex;
+    align-items: center;
+  }
+  .swimlane-cells {
+    display: flex;
+    align-items: center;
+    padding: 10px 12px;
+    border-bottom: 1px solid var(--border);
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+  .swimlane-row:last-child .swimlane-role-cell,
+  .swimlane-row:last-child .swimlane-cells {
+    border-bottom: none;
+  }
+
+  .flow-box {
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 8px 12px;
+    font-size: 12px;
+    background: var(--white);
+    max-width: 200px;
+    cursor: pointer;
+    transition: border-color 0.1s;
+    position: relative;
+  }
+  .flow-box:hover { border-color: #aaa; }
+  .flow-box .flow-seq {
+    font-size: 10px;
+    color: var(--ink-faint);
+    margin-bottom: 3px;
+  }
+  .flow-box .flow-label { font-size: 12px; line-height: 1.4; }
+  .flow-arrow {
+    color: var(--ink-faint);
+    font-size: 16px;
+    flex-shrink: 0;
+  }
+
+  /* ── Empty states ── */
+  .empty {
+    padding: 32px;
+    text-align: center;
+    color: var(--ink-faint);
+    font-size: 13px;
+  }
+
+  /* ── Animations ── */
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(-4px); } to { opacity: 1; transform: translateY(0); } }
+
+  /* ── Responsive ── */
+  @media (max-width: 640px) {
+    main { padding: 20px 16px; }
+    header { padding: 16px; }
+    nav { padding: 0 16px; }
+    nav button { padding: 10px 14px; font-size: 13px; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Gable Homes — BTZL workflow</h1>
+  <span>40 activities across 7 phases</span>
+</header>
+
+<nav>
+  <button class="active" data-tab="explore">Explore</button>
+  <button data-tab="fulllist">Full list</button>
+  <button data-tab="flow">Flow</button>
+</nav>
+
+<main>
+
+  <!-- ── EXPLORE ── -->
+  <div id="view-explore" class="view active">
+
+    <div class="phase-map">
+      <!-- Weekly track -->
+      <div class="cycle-track">
+        <div class="cycle-header">
+          <span class="cycle-badge weekly">Weekly cycle</span>
+        </div>
+        <div class="phase-nodes" id="weekly-phases">
+          <div class="bookend-node">Phase zero handoff</div>
+        </div>
+      </div>
+
+      <!-- Monthly track -->
+      <div class="cycle-track">
+        <div class="cycle-header">
+          <span class="cycle-badge monthly">Monthly cycle</span>
+        </div>
+        <div class="phase-nodes" id="monthly-phases">
+        </div>
+      </div>
+    </div>
+
+    <div id="phase-detail-panel"></div>
+
+    <!-- People section -->
+    <div class="people-section">
+      <div class="section-label">People</div>
+      <div class="people-row" id="people-row"></div>
+    </div>
+
+    <div id="person-detail-panel"></div>
+  </div>
+
+  <!-- ── FULL LIST ── -->
+  <div id="view-fulllist" class="view">
+    <div id="fulllist-content"></div>
+  </div>
+
+  <!-- ── FLOW ── -->
+  <div id="view-flow" class="view">
+    <div class="section-label" style="margin-bottom:16px">Select a phase to see the swimlane</div>
+    <div class="flow-controls" id="flow-controls"></div>
+    <div id="flow-panel"></div>
+  </div>
+
+</main>
+
+<script>
+// ── Data ──────────────────────────────────────────────────────────────────
+let DATA = [];
+
+const PEOPLE_META = {
+  Fernando:  { role: 'Owner and sponsor', note: 'Minimal touchpoints by design. Signs off on draw packages, responds to escalations, aligns on monthly outlook.' },
+  Brian:     { role: 'Field construction lead', note: 'Confirms field documentation and weekly percent complete. Front line for subcontractor and materials on site.' },
+  Javier:    { role: 'Field coordinator and estimating', note: 'Handles purchases and online orders. Sends delivery confirmations and change order notices.' },
+  Andreina:  { role: 'Administrative', note: 'Labor payment documents and bank movements only. Not responsible for chasing.' },
+  Alexandra: { role: 'Finishes and FF&E', note: 'Online order and delivery confirmations for finishes and FF&E.' },
+  Claudia:   { role: 'Internal coordination', note: 'Consolidation and confirmation routing. First filter before BTZL.' },
+  Laura:     { role: 'BTZL', note: 'Classification, confidence levels, SOV updates, draw package assembly, monthly reporting.' },
+  Alejandro: { role: 'BTZL CFO', note: 'Change order escalation, weekly cash flow snapshot, monthly portfolio review and analysis.' },
+};
+
+const WEEKLY_PHASES = ['Document Collection', 'Consolidation', 'BTZL Processing', 'Confirmation Loop'];
+const MONTHLY_PHASES = ['Draw Package Assembly', 'Review and Submission', 'Reporting and Analysis'];
+
+// ── State ─────────────────────────────────────────────────────────────────
+let activeTab = 'explore';
+let activePhase = null;       // { cycle, name }
+let activePerson = null;
+let expandedActivity = null;  // id string "phase|cycle|seq"
+let activeFlowPhase = null;
+
+// ── Init ──────────────────────────────────────────────────────────────────
+fetch('workflow.json')
+  .then(r => r.json())
+  .then(data => {
+    DATA = data;
+    buildAll();
+  });
+
+function buildAll() {
+  buildExplore();
+  buildFullList();
+  buildFlowControls();
+}
+
+// ── Tabs ──────────────────────────────────────────────────────────────────
+document.querySelectorAll('nav button').forEach(btn => {
+  btn.addEventListener('click', () => {
+    activeTab = btn.dataset.tab;
+    document.querySelectorAll('nav button').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+    document.getElementById('view-' + activeTab).classList.add('active');
+  });
+});
+
+// ── Explore ───────────────────────────────────────────────────────────────
+function buildExplore() {
+  buildPhaseNodes('weekly-phases', 'Weekly', WEEKLY_PHASES);
+  buildPhaseNodes('monthly-phases', 'Monthly', MONTHLY_PHASES);
+  buildPeopleRow();
+}
+
+function buildPhaseNodes(containerId, cycle, phases) {
+  const container = document.getElementById(containerId);
+  // Keep bookend for weekly
+  const existingBookend = container.querySelector('.bookend-node');
+
+  phases.forEach(name => {
+    const count = DATA.filter(r => r.Cycle === name).length;
+    const btn = document.createElement('button');
+    btn.className = 'phase-node';
+    btn.dataset.cycle = cycle;
+    btn.dataset.phase = name;
+    btn.innerHTML = `${name} <span class="count">${count}</span>`;
+    btn.addEventListener('click', () => togglePhase(cycle, name, btn));
+    container.appendChild(btn);
+  });
+
+  // Monthly bookend goes after the nodes
+  if (cycle === 'Monthly') {
+    const be = document.createElement('div');
+    be.className = 'bookend-node';
+    be.textContent = 'Project close out handoff';
+    container.appendChild(be);
+  } else if (cycle === 'Weekly') {
+    // Move existing bookend to front (it's already there)
+  }
+}
+
+function togglePhase(cycle, name, btn) {
+  // Deselect person
+  activePerson = null;
+  document.querySelectorAll('.person-chip').forEach(c => c.classList.remove('active'));
+  document.getElementById('person-detail-panel').innerHTML = '';
+
+  if (activePhase && activePhase.cycle === cycle && activePhase.name === name) {
+    // Deselect
+    activePhase = null;
+    btn.classList.remove('active-weekly', 'active-monthly');
+    document.getElementById('phase-detail-panel').innerHTML = '';
+    return;
+  }
+
+  // Deselect all phase nodes
+  document.querySelectorAll('.phase-node').forEach(n => n.classList.remove('active-weekly', 'active-monthly'));
+
+  activePhase = { cycle, name };
+  btn.classList.add(cycle === 'Weekly' ? 'active-weekly' : 'active-monthly');
+  expandedActivity = null;
+  renderPhaseDetail();
+}
+
+function renderPhaseDetail() {
+  const panel = document.getElementById('phase-detail-panel');
+  if (!activePhase) { panel.innerHTML = ''; return; }
+
+  const { cycle, name } = activePhase;
+  const activities = DATA.filter(r => r.Cycle === name).sort((a, b) => a.Sequence - b.Sequence);
+  const cycleClass = cycle.toLowerCase();
+
+  panel.innerHTML = `
+    <div class="phase-detail">
+      <h3>
+        ${name}
+        <span class="phase-tag ${cycleClass}">${cycle}</span>
+      </h3>
+      <ul class="activity-list" id="phase-activity-list"></ul>
+    </div>
+  `;
+
+  const list = document.getElementById('phase-activity-list');
+  activities.forEach(act => {
+    const id = `${act.Phase}|${act.Cycle}|${act.Sequence}`;
+    const li = document.createElement('li');
+    li.className = 'activity-item';
+    li.dataset.id = id;
+    li.innerHTML = activityRowHTML(act, id);
+    list.appendChild(li);
+    li.querySelector('.activity-item-row').addEventListener('click', () => toggleActivity(id, act, li));
+  });
+}
+
+function activityRowHTML(act, id) {
+  return `
+    <div class="activity-item-row">
+      <span class="activity-num">${act.Sequence}</span>
+      <span class="activity-title">${act.Activity}</span>
+      <span class="activity-who">${act['Who does it']}</span>
+    </div>
+  `;
+}
+
+function toggleActivity(id, act, li) {
+  const existing = li.querySelector('.detail-card');
+  if (existing) {
+    existing.remove();
+    if (expandedActivity === id) { expandedActivity = null; return; }
+  }
+
+  // Close any other open card
+  document.querySelectorAll('.detail-card').forEach(c => c.remove());
+
+  expandedActivity = id;
+  const card = buildDetailCard(act);
+  li.appendChild(card);
+}
+
+function buildDetailCard(act) {
+  const div = document.createElement('div');
+  div.className = 'detail-card';
+  div.innerHTML = `
+    <div class="detail-card-header">${act.Sequence}. ${act.Activity}</div>
+    <div class="detail-fields">
+      <div class="detail-field">
+        <span class="detail-field-label">Who</span>
+        <span class="detail-field-value" data-field="who" title="Click to edit (illustrative)">${act['Who does it']}</span>
+      </div>
+      <div class="detail-field">
+        <span class="detail-field-label">Frequency</span>
+        <span class="detail-field-value" data-field="freq" title="Click to edit (illustrative)">${act.Frequency}</span>
+      </div>
+      <div class="detail-field">
+        <span class="detail-field-label">Channel</span>
+        <span class="detail-field-value" data-field="channel" title="Click to edit (illustrative)">${act.Channel}</span>
+      </div>
+      <div class="detail-field must-field">
+        <span class="detail-field-label">Must</span>
+        <span class="detail-field-value" data-field="must" title="Click to edit (illustrative)">${act.Must}</span>
+      </div>
+      <div class="detail-field receives-field">
+        <span class="detail-field-label">From</span>
+        <span class="detail-field-value">${act['Receives from']}</span>
+      </div>
+    </div>
+    <p class="edit-note">Fields are editable here as a demonstration — changes are not saved.</p>
+  `;
+
+  // Make fields editable on click
+  div.querySelectorAll('[data-field]').forEach(el => {
+    el.addEventListener('click', (e) => {
+      e.stopPropagation();
+      el.contentEditable = 'true';
+      el.focus();
+    });
+    el.addEventListener('blur', () => { el.contentEditable = 'false'; });
+  });
+
+  return div;
+}
+
+// ── People ────────────────────────────────────────────────────────────────
+function buildPeopleRow() {
+  const row = document.getElementById('people-row');
+  Object.keys(PEOPLE_META).forEach(name => {
+    const chip = document.createElement('button');
+    chip.className = 'person-chip';
+    chip.textContent = name;
+    chip.addEventListener('click', () => togglePerson(name, chip));
+    row.appendChild(chip);
+  });
+}
+
+function togglePerson(name, chip) {
+  // Deselect phase
+  activePhase = null;
+  document.querySelectorAll('.phase-node').forEach(n => n.classList.remove('active-weekly', 'active-monthly'));
+  document.getElementById('phase-detail-panel').innerHTML = '';
+  document.querySelectorAll('.detail-card').forEach(c => c.remove());
+
+  if (activePerson === name) {
+    activePerson = null;
+    chip.classList.remove('active');
+    document.getElementById('person-detail-panel').innerHTML = '';
+    return;
+  }
+
+  activePerson = name;
+  document.querySelectorAll('.person-chip').forEach(c => c.classList.remove('active'));
+  chip.classList.add('active');
+  renderPersonDetail(name);
+}
+
+function renderPersonDetail(name) {
+  const panel = document.getElementById('person-detail-panel');
+  const meta = PEOPLE_META[name];
+  const activities = DATA.filter(r => r['Who does it'].split(',').map(s => s.trim()).includes(name))
+                         .sort((a, b) => {
+                           const po = ['Weekly', 'Monthly'];
+                           if (po.indexOf(a.Phase) !== po.indexOf(b.Phase)) return po.indexOf(a.Phase) - po.indexOf(b.Phase);
+                           return a.Sequence - b.Sequence;
+                         });
+
+  panel.innerHTML = `
+    <div class="person-detail">
+      <h3>${name}</h3>
+      <p class="person-role">${meta.role} — ${meta.note}</p>
+      <h4>${activities.length} activit${activities.length === 1 ? 'y' : 'ies'}</h4>
+      <ul class="activity-list" id="person-activity-list"></ul>
+    </div>
+  `;
+
+  const list = document.getElementById('person-activity-list');
+  activities.forEach(act => {
+    const id = `person|${act.Phase}|${act.Cycle}|${act.Sequence}`;
+    const li = document.createElement('li');
+    li.className = 'activity-item';
+    li.dataset.id = id;
+    const cycleLabel = `${act.Phase} / ${act.Cycle}`;
+    li.innerHTML = `
+      <div class="activity-item-row">
+        <span class="activity-num">${act.Sequence}</span>
+        <span class="activity-title">${act.Activity}</span>
+        <span class="activity-who" style="color:var(--ink-faint)">${cycleLabel}</span>
+      </div>
+    `;
+    list.appendChild(li);
+    li.querySelector('.activity-item-row').addEventListener('click', () => toggleActivity(id, act, li));
+  });
+}
+
+// ── Full list ─────────────────────────────────────────────────────────────
+function buildFullList() {
+  const container = document.getElementById('fulllist-content');
+  const groups = [
+    { phase: 'Weekly', cycles: WEEKLY_PHASES },
+    { phase: 'Monthly', cycles: MONTHLY_PHASES },
+  ];
+
+  groups.forEach(({ phase, cycles }) => {
+    cycles.forEach(cycle => {
+      const activities = DATA.filter(r => r.Phase === phase && r.Cycle === cycle)
+                             .sort((a, b) => a.Sequence - b.Sequence);
+      if (!activities.length) return;
+
+      const section = document.createElement('div');
+      section.className = 'phase-group';
+      section.innerHTML = `<div class="phase-group-label ${phase.toLowerCase()}">${phase} — ${cycle}</div>`;
+
+      const ul = document.createElement('ul');
+      ul.className = 'activity-list';
+      activities.forEach(act => {
+        const id = `list|${act.Phase}|${act.Cycle}|${act.Sequence}`;
+        const li = document.createElement('li');
+        li.className = 'activity-item';
+        li.innerHTML = `
+          <div class="activity-item-row">
+            <span class="activity-num">${act.Sequence}</span>
+            <span class="activity-title">${act.Activity}</span>
+            <span class="activity-who">${act['Who does it']}</span>
+          </div>
+        `;
+        ul.appendChild(li);
+        li.querySelector('.activity-item-row').addEventListener('click', () => toggleActivity(id, act, li));
+      });
+
+      section.appendChild(ul);
+      container.appendChild(section);
+    });
+  });
+}
+
+// ── Flow ──────────────────────────────────────────────────────────────────
+function buildFlowControls() {
+  const container = document.getElementById('flow-controls');
+  const allPhases = [
+    ...WEEKLY_PHASES.map(p => ({ cycle: 'Weekly', name: p })),
+    ...MONTHLY_PHASES.map(p => ({ cycle: 'Monthly', name: p })),
+  ];
+
+  allPhases.forEach(({ cycle, name }) => {
+    const btn = document.createElement('button');
+    btn.className = 'flow-phase-btn';
+    btn.textContent = name;
+    btn.dataset.cycle = cycle;
+    btn.dataset.phase = name;
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.flow-phase-btn').forEach(b => b.classList.remove('active-weekly', 'active-monthly'));
+      btn.classList.add(cycle === 'Weekly' ? 'active-weekly' : 'active-monthly');
+      activeFlowPhase = { cycle, name };
+      renderFlow(cycle, name);
+    });
+    container.appendChild(btn);
+  });
+}
+
+function renderFlow(cycle, phaseName) {
+  const panel = document.getElementById('flow-panel');
+  const activities = DATA.filter(r => r.Cycle === phaseName).sort((a, b) => a.Sequence - b.Sequence);
+
+  // Collect roles involved
+  const rolesSet = new Set();
+  activities.forEach(act => {
+    act['Who does it'].split(',').map(s => s.trim()).forEach(r => rolesSet.add(r));
+  });
+  // Maintain canonical order
+  const canonicalOrder = ['Fernando', 'Brian', 'Javier', 'Andreina', 'Alexandra', 'Claudia', 'Laura', 'Alejandro'];
+  const roles = canonicalOrder.filter(r => rolesSet.has(r));
+
+  const cycleClass = cycle.toLowerCase();
+
+  panel.innerHTML = `
+    <div class="swimlane-container">
+      <div class="swimlane-header">
+        <span class="cycle-dot ${cycleClass}"></span>
+        ${phaseName}
+      </div>
+      <div class="swimlane-grid" id="swimlane-grid" style="grid-template-columns: 140px 1fr;"></div>
+    </div>
+  `;
+
+  const grid = document.getElementById('swimlane-grid');
+
+  roles.forEach(role => {
+    const roleActivities = activities.filter(act =>
+      act['Who does it'].split(',').map(s => s.trim()).includes(role)
+    );
+
+    const roleCell = document.createElement('div');
+    roleCell.className = 'swimlane-role-cell';
+    roleCell.textContent = role;
+
+    const activitiesCell = document.createElement('div');
+    activitiesCell.className = 'swimlane-cells';
+
+    roleActivities.forEach((act, i) => {
+      // Add arrow between boxes if not first
+      if (i > 0) {
+        const arrow = document.createElement('span');
+        arrow.className = 'flow-arrow';
+        arrow.textContent = '→';
+        activitiesCell.appendChild(arrow);
+      }
+
+      const box = document.createElement('div');
+      box.className = 'flow-box';
+      box.innerHTML = `
+        <div class="flow-seq">Activity ${act.Sequence}</div>
+        <div class="flow-label">${act.Activity}</div>
+      `;
+
+      // Tooltip / click to expand detail
+      const id = `flow|${act.Phase}|${act.Cycle}|${act.Sequence}`;
+      box.addEventListener('click', (e) => {
+        e.stopPropagation();
+        // Remove existing open card
+        const existing = document.querySelector('.flow-detail-open');
+        if (existing) existing.remove();
+        if (box.dataset.open === 'true') { box.dataset.open = 'false'; return; }
+
+        document.querySelectorAll('.flow-box').forEach(b => b.dataset.open = 'false');
+        box.dataset.open = 'true';
+
+        const card = buildDetailCard(act);
+        card.classList.add('flow-detail-open');
+        card.style.marginTop = '12px';
+        box.after(card);
+      });
+
+      activitiesCell.appendChild(box);
+    });
+
+    grid.appendChild(roleCell);
+    grid.appendChild(activitiesCell);
+  });
+
+  // Show receives-from arrows hint
+  const hint = document.createElement('p');
+  hint.style.cssText = 'font-size:12px;color:var(--ink-faint);padding:12px 20px;border-top:1px solid var(--border)';
+  hint.textContent = 'Arrows show sequential order within each role. Click any activity to see full details.';
+  panel.querySelector('.swimlane-container').appendChild(hint);
+}
+</script>
+</body>
+</html>
