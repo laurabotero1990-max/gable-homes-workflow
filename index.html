@@ -1342,23 +1342,61 @@ function buildPortfolio() {
 
   container.appendChild(list);
 
-  // ── Debt by lender summary ──
-  container.appendChild(buildDebtSummary());
+  // ── Debt by lender summary (collapsible) ──
+  container.appendChild(buildCollapsible('Debt by lender', buildDebtSummary));
 
-  // ── Equity by investor summary ──
-  container.appendChild(buildInvestorSummary());
+  // ── Equity by investor summary (collapsible) ──
+  container.appendChild(buildCollapsible('Equity by investor', buildInvestorSummary));
 }
 
 
-function buildGroupedCards(title, groups) {
+function buildCollapsible(title, contentBuilder) {
+  const wrap = document.createElement('div');
+  wrap.style.cssText = 'margin-top:24px;';
+
+  const toggle = document.createElement('button');
+  toggle.style.cssText = `
+    display:flex; align-items:center; gap:8px;
+    background:none; border:none; cursor:pointer; padding:0;
+    font-size:11px; font-weight:600; letter-spacing:0.08em;
+    text-transform:uppercase; color:var(--ink-faint);
+  `;
+
+  const arrow = document.createElement('span');
+  arrow.style.cssText = 'font-size:10px; transition:transform 0.15s; display:inline-block;';
+  arrow.textContent = '▶';
+
+  const titleSpan = document.createElement('span');
+  titleSpan.textContent = title;
+
+  toggle.appendChild(arrow);
+  toggle.appendChild(titleSpan);
+  wrap.appendChild(toggle);
+
+  const body = document.createElement('div');
+  body.style.cssText = 'display:none;';
+  wrap.appendChild(body);
+
+  let built = false;
+  toggle.addEventListener('click', () => {
+    const open = body.style.display !== 'none';
+    if (open) {
+      body.style.display = 'none';
+      arrow.style.transform = '';
+    } else {
+      if (!built) { body.appendChild(contentBuilder()); built = true; }
+      body.style.display = '';
+      arrow.style.transform = 'rotate(90deg)';
+    }
+  });
+
+  return wrap;
+}
+
+function buildGroupedCards(groups) {
   // groups: [{groupName, cards: [{header, fields: [{label, value}]}]}]
   const wrap = document.createElement('div');
-  wrap.style.cssText = 'margin-top:32px;';
-
-  const sectionLabel = document.createElement('div');
-  sectionLabel.className = 'section-label';
-  sectionLabel.textContent = title;
-  wrap.appendChild(sectionLabel);
+  wrap.style.cssText = 'margin-top:12px;';
 
   groups.forEach(group => {
     const groupWrap = document.createElement('div');
@@ -1418,7 +1456,7 @@ function buildDebtSummary() {
     })),
   }));
 
-  return buildGroupedCards('Debt by lender', groups);
+  return buildGroupedCards(groups);
 }
 
 function buildInvestorSummary() {
@@ -1442,7 +1480,7 @@ function buildInvestorSummary() {
     })),
   }));
 
-  return buildGroupedCards('Equity by investor', groups);
+  return buildGroupedCards(groups);
 }
 
 function buildProjectDetail(proj) {
