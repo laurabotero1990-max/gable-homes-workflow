@@ -348,16 +348,13 @@
   }
 
   /* Portfolio summary tables (Debt by lender, Equity by investor) */
-  .summary-table { width: 100%; border-collapse: collapse; font-size: 13px; }
-  .summary-table th {
-    text-align: left; font-size: 12px; font-weight: 400; color: var(--ink-faint);
-    padding: 10px 16px 10px; border-bottom: 1px solid var(--border);
-  }
-  .summary-table th.num { text-align: right; }
-  .summary-table td { padding: 12px 16px; border-bottom: 1px solid #f5f5f5; color: var(--ink); font-size: 13px; }
-  .summary-table tr:last-child td { border-bottom: none; }
-  .summary-table .num { text-align: right; font-variant-numeric: tabular-nums; }
-  .summary-table .group-name { font-weight: 600; }
+  .summary-grid { border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; background: var(--white); margin-top: 12px; }
+  .summary-grid-row { display: grid; border-bottom: 1px solid #f0f0f0; }
+  .summary-grid-row:last-child { border-bottom: none; }
+  .summary-grid-row > div { padding: 13px 16px; font-size: 13px; color: var(--ink); }
+  .summary-grid-hdr > div { padding: 9px 16px; font-size: 11px; font-weight: 400; color: var(--ink-faint); text-transform: none; letter-spacing: 0; border-bottom: 1px solid var(--border); background: var(--white); }
+  .summary-grid-row .sg-num { text-align: right; font-variant-numeric: tabular-nums; }
+  .summary-grid-row .sg-group { font-weight: 600; }
 
   /* Debt / Investor rows */
   .profile-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 16px; }
@@ -1479,39 +1476,50 @@ function buildSummaryTable(headers, groupedRows) {
   return tableWrap;
 }
 
-function buildFlatTable(headers, groupedRows) {
+function buildFlatTable(headers, groupedRows, numericFromCol) {
+  // numericFromCol: column index (0-based) from which values are numeric (right-align)
+  const colCount = headers.length;
+  const colTemplate = headers.map((_, i) => i >= numericFromCol ? '1fr' : (i === 0 ? '160px' : '1fr')).join(' ');
+
   const wrap = document.createElement('div');
-  wrap.style.cssText = 'margin-top:12px; border:1px solid var(--border); border-radius:var(--radius); overflow:hidden; background:var(--white);';
+  wrap.className = 'summary-grid';
+  wrap.style.gridTemplateColumns = colTemplate;
 
-  const table = document.createElement('table');
-  table.className = 'summary-table';
+  // Header row
+  const hdr = document.createElement('div');
+  hdr.className = 'summary-grid-row summary-grid-hdr';
+  hdr.style.gridTemplateColumns = colTemplate;
+  headers.forEach((h, i) => {
+    const cell = document.createElement('div');
+    if (i >= numericFromCol) cell.className = 'sg-num';
+    cell.textContent = h;
+    hdr.appendChild(cell);
+  });
+  wrap.appendChild(hdr);
 
-  const thead = document.createElement('thead');
-  thead.innerHTML = '<tr>' + headers.map((h, i) =>
-    `<th class="${i >= 2 ? 'num' : ''}">${h}</th>`
-  ).join('') + '</tr>';
-  table.appendChild(thead);
-
-  const tbody = document.createElement('tbody');
   groupedRows.forEach(({ groupName, rows }) => {
-    rows.forEach((cells, i) => {
-      const tr = document.createElement('tr');
-      const tdGroup = document.createElement('td');
-      tdGroup.className = i === 0 ? 'group-name' : '';
-      tdGroup.textContent = i === 0 ? groupName : '';
-      tr.appendChild(tdGroup);
+    rows.forEach((cells, ri) => {
+      const row = document.createElement('div');
+      row.className = 'summary-grid-row';
+      row.style.gridTemplateColumns = colTemplate;
+
+      // Group name cell
+      const gcell = document.createElement('div');
+      if (ri === 0) gcell.className = 'sg-group';
+      gcell.textContent = ri === 0 ? groupName : '';
+      row.appendChild(gcell);
+
       cells.forEach((val, ci) => {
-        const td = document.createElement('td');
-        td.className = ci >= 1 ? 'num' : '';
-        td.textContent = val;
-        tr.appendChild(td);
+        const cell = document.createElement('div');
+        if (ci + 1 >= numericFromCol) cell.className = 'sg-num';
+        cell.textContent = val;
+        row.appendChild(cell);
       });
-      tbody.appendChild(tr);
+
+      wrap.appendChild(row);
     });
   });
 
-  table.appendChild(tbody);
-  wrap.appendChild(table);
   return wrap;
 }
 
@@ -1534,7 +1542,7 @@ function buildDebtSummary() {
     ]),
   }));
 
-  return buildFlatTable(headers, groupedRows);
+  return buildFlatTable(headers, groupedRows, 2);
 }
 
 function buildInvestorSummary() {
@@ -1556,7 +1564,7 @@ function buildInvestorSummary() {
     ]),
   }));
 
-  return buildFlatTable(headers, groupedRows);
+  return buildFlatTable(headers, groupedRows, 2);
 }
 
 function buildDetailCollapsible(title, contentEl, startOpen = false) {
