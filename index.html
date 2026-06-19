@@ -1691,8 +1691,16 @@ function buildProjectDetail(proj) {
   sovSection.appendChild(table);
   body.appendChild(sovSection);
 
-  // ── Debt Section (collapsible) ──
+  // ── Debt Section ──
   if (debt) {
+    const debtSection = document.createElement('div');
+    debtSection.className = 'portfolio-section';
+
+    const debtLabel = document.createElement('div');
+    debtLabel.className = 'portfolio-section-label';
+    debtLabel.textContent = 'Debt';
+    debtSection.appendChild(debtLabel);
+
     const grid = document.createElement('div');
     grid.className = 'profile-grid';
 
@@ -1713,11 +1721,20 @@ function buildProjectDetail(proj) {
     });
 
     grid.appendChild(card);
-    body.appendChild(buildDetailCollapsible('Debt', grid));
+    debtSection.appendChild(grid);
+    body.appendChild(debtSection);
   }
 
-  // ── Equity Section (collapsible) ──
+  // ── Equity Section ──
   if (investors.length) {
+    const eqSection = document.createElement('div');
+    eqSection.className = 'portfolio-section';
+
+    const eqLabel = document.createElement('div');
+    eqLabel.className = 'portfolio-section-label';
+    eqLabel.textContent = 'Equity';
+    eqSection.appendChild(eqLabel);
+
     const grid = document.createElement('div');
     grid.className = 'profile-grid';
 
@@ -1742,7 +1759,8 @@ function buildProjectDetail(proj) {
       grid.appendChild(card);
     });
 
-    body.appendChild(buildDetailCollapsible('Equity', grid));
+    eqSection.appendChild(grid);
+    body.appendChild(eqSection);
   }
 
   detail.appendChild(body);
