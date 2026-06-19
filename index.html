@@ -1349,119 +1349,100 @@ function buildPortfolio() {
   container.appendChild(buildInvestorSummary());
 }
 
-function buildSummaryTable(title, headers, rows) {
+
+function buildGroupedCards(title, groups) {
+  // groups: [{groupName, cards: [{header, fields: [{label, value}]}]}]
   const wrap = document.createElement('div');
-  wrap.style.cssText = 'margin-top:28px;';
+  wrap.style.cssText = 'margin-top:32px;';
 
-  const label = document.createElement('div');
-  label.className = 'section-label';
-  label.textContent = title;
-  wrap.appendChild(label);
+  const sectionLabel = document.createElement('div');
+  sectionLabel.className = 'section-label';
+  sectionLabel.textContent = title;
+  wrap.appendChild(sectionLabel);
 
-  const tableWrap = document.createElement('div');
-  tableWrap.style.cssText = 'border:1px solid var(--border); border-radius:var(--radius); overflow:hidden; margin-top:12px; background:var(--white);';
+  groups.forEach(group => {
+    const groupWrap = document.createElement('div');
+    groupWrap.style.cssText = 'margin-top:20px;';
 
-  const table = document.createElement('table');
-  table.className = 'sov-table';
-  table.style.cssText = 'width:100%;';
+    const groupLabel = document.createElement('div');
+    groupLabel.style.cssText = 'font-size:13px; font-weight:600; color:var(--ink); margin-bottom:12px;';
+    groupLabel.textContent = group.groupName;
+    groupWrap.appendChild(groupLabel);
 
-  const thead = document.createElement('thead');
-  thead.innerHTML = '<tr>' + headers.map((h, i) =>
-    `<th class="${h.num ? 'num' : ''}">${h.label}</th>`
-  ).join('') + '</tr>';
-  table.appendChild(thead);
+    const cardRow = document.createElement('div');
+    cardRow.className = 'profile-grid';
 
-  const tbody = document.createElement('tbody');
-  rows.forEach(cells => {
-    const tr = document.createElement('tr');
-    cells.forEach((cell, i) => {
-      const td = document.createElement('td');
-      td.className = headers[i].num ? 'num' : '';
-      if (typeof cell === 'string' || typeof cell === 'number') {
-        td.textContent = cell;
-      } else {
-        td.appendChild(cell);
-      }
-      tr.appendChild(td);
+    group.cards.forEach(cardData => {
+      const card = document.createElement('div');
+      card.className = 'profile-card';
+
+      const cardHeader = document.createElement('div');
+      cardHeader.className = 'profile-card-name';
+      cardHeader.textContent = cardData.header;
+      card.appendChild(cardHeader);
+
+      cardData.fields.forEach(({label, value}) => {
+        const field = document.createElement('div');
+        field.className = 'profile-field';
+        field.innerHTML = `<span class="profile-field-label">${label}</span><span class="profile-field-value">${value}</span>`;
+        card.appendChild(field);
+      });
+
+      cardRow.appendChild(card);
     });
-    tbody.appendChild(tr);
+
+    groupWrap.appendChild(cardRow);
+    wrap.appendChild(groupWrap);
   });
-  table.appendChild(tbody);
-  tableWrap.appendChild(table);
-  wrap.appendChild(tableWrap);
+
   return wrap;
 }
 
 function buildDebtSummary() {
-  const debtRows = PORTFOLIO['Debt Profile'];
-
-  // Group by lender
   const byLender = {};
-  debtRows.forEach(r => {
+  PORTFOLIO['Debt Profile'].forEach(r => {
     if (!byLender[r.Lender]) byLender[r.Lender] = [];
     byLender[r.Lender].push(r);
   });
 
-  const headers = [
-    { label: 'Lender' },
-    { label: 'Project' },
-    { label: 'Loan amount', num: true },
-    { label: 'Drawn to date', num: true },
-    { label: 'Available to draw', num: true },
-    { label: 'Interest rate', num: true },
-  ];
+  const groups = Object.entries(byLender).map(([lender, rows]) => ({
+    groupName: lender,
+    cards: rows.map(r => ({
+      header: r.Project,
+      fields: [
+        { label: 'Loan amount',       value: fmt$(r['Loan Amount']) },
+        { label: 'Drawn to date',     value: fmt$(r['Drawn to Date']) },
+        { label: 'Available to draw', value: fmt$(r['Available to Draw']) },
+        { label: 'Interest rate',     value: fmtRate(r['Interest Rate']) },
+      ],
+    })),
+  }));
 
-  const tableRows = [];
-  Object.entries(byLender).forEach(([lender, rows]) => {
-    rows.forEach((r, i) => {
-      tableRows.push([
-        i === 0 ? lender : '',
-        r.Project,
-        fmt$(r['Loan Amount']),
-        fmt$(r['Drawn to Date']),
-        fmt$(r['Available to Draw']),
-        fmtRate(r['Interest Rate']),
-      ]);
-    });
-  });
-
-  return buildSummaryTable('Debt by lender', headers, tableRows);
+  return buildGroupedCards('Debt by lender', groups);
 }
 
 function buildInvestorSummary() {
-  const invRows = PORTFOLIO['Investor Profile'];
-
-  // Group by investor
   const byInvestor = {};
-  invRows.forEach(r => {
+  PORTFOLIO['Investor Profile'].forEach(r => {
     if (!byInvestor[r.Investor]) byInvestor[r.Investor] = [];
     byInvestor[r.Investor].push(r);
   });
 
-  const headers = [
-    { label: 'Investor' },
-    { label: 'Project' },
-    { label: 'Amount committed', num: true },
-    { label: 'Amount invested', num: true },
-    { label: 'Profit share', num: true },
-    { label: 'Capital returned', num: true },
-  ];
+  const groups = Object.entries(byInvestor).map(([investor, rows]) => ({
+    groupName: investor,
+    cards: rows.map(r => ({
+      header: r.Project,
+      fields: [
+        { label: 'Amount committed', value: fmt$(r['Amount Committed']) },
+        { label: 'Amount invested',  value: fmt$(r['Amount Invested']) },
+        { label: 'Profit share',     value: fmtPct(r['Profit Share']) },
+        { label: 'Capital returned', value: fmt$(r['Capital Returned to Date']) },
+        { label: 'Projected return', value: r['Projected Return'] || '—' },
+      ],
+    })),
+  }));
 
-  const tableRows = [];
-  Object.entries(byInvestor).forEach(([investor, rows]) => {
-    rows.forEach((r, i) => {
-      tableRows.push([
-        i === 0 ? investor : '',
-        r.Project,
-        fmt$(r['Amount Committed']),
-        fmt$(r['Amount Invested']),
-        fmtPct(r['Profit Share']),
-        fmt$(r['Capital Returned to Date']),
-      ]);
-    });
-  });
-
-  return buildSummaryTable('Equity by investor', headers, tableRows);
+  return buildGroupedCards('Equity by investor', groups);
 }
 
 function buildProjectDetail(proj) {
