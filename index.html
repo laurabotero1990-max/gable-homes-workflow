@@ -1374,20 +1374,14 @@ function buildCollapsible(title, contentBuilder) {
   wrap.appendChild(toggle);
 
   const body = document.createElement('div');
-  body.style.cssText = 'display:none;';
+  body.appendChild(contentBuilder());
   wrap.appendChild(body);
+  arrow.style.transform = 'rotate(90deg)';
 
-  let built = false;
   toggle.addEventListener('click', () => {
     const open = body.style.display !== 'none';
-    if (open) {
-      body.style.display = 'none';
-      arrow.style.transform = '';
-    } else {
-      if (!built) { body.appendChild(contentBuilder()); built = true; }
-      body.style.display = '';
-      arrow.style.transform = 'rotate(90deg)';
-    }
+    body.style.display = open ? 'none' : '';
+    arrow.style.transform = open ? '' : 'rotate(90deg)';
   });
 
   return wrap;
