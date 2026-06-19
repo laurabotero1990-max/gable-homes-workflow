@@ -609,10 +609,10 @@ function renderFlow(cycle, stageName) {
   panel.innerHTML = '';
   const activities = DATA.filter(r => r.Stage === stageName).sort((a, b) => a.Sequence - b.Sequence);
   const stageIds = new Set(activities.map(a => a.ID));
-  if (stageName === 'Weekly view') {
-    panel.appendChild(renderFlowPOC(cycle, stageName, activities, stageIds));
+  if (stageName === 'Intake') {
+    panel.appendChild(renderFlowIntake(cycle, stageName, activities, stageIds));
   } else {
-    panel.appendChild(renderFlowStandard(cycle, stageName, activities, stageIds));
+    panel.appendChild(renderFlowPOC(cycle, stageName, activities, stageIds));
   }
 }
 
@@ -738,8 +738,8 @@ function renderFlowStandard(cycle, stageName, activities, stageIds) {
 }
 
 // ── Flow: POC layout — fixed column positions + right-angle connectors ────
-// Applied to Weekly view only. Column x = sequence number, row y = role.
-// Connectors: H → V → H (no diagonals).
+// Column x = sequence number within stage, row y = primary role.
+// Connectors: H → V → H (no diagonals). Used for all stages except Intake.
 function renderFlowPOC(cycle, stageName, activities, stageIds) {
   const ROW_H = 150, COL_W = 220, BOX_W = 155, PAD_X = 20, LANE_PAD = 14;
 
@@ -916,6 +916,209 @@ function renderFlowPOC(cycle, stageName, activities, stageIds) {
   const hint = document.createElement('div');
   hint.className = 'swimlane-hint';
   hint.textContent = 'Connectors route at right angles: horizontal → vertical → horizontal. Same-row connections are straight lines. Click any activity for details.';
+  outer.appendChild(hint);
+
+  return outer;
+}
+
+// ── Flow: Intake fan-in layout ────────────────────────────────────────────
+// Activities 1.1.1–1.1.11 are parallel starting points, one per person's row.
+// Column position = local index within that person's row (not global sequence).
+// Activities 1.1.12 and 1.1.13 (Claudia) are consolidation points at far right.
+function renderFlowIntake(cycle, stageName, activities, stageIds) {
+  const ROW_H = 150, COL_W = 220, BOX_W = 155, PAD_X = 20, LANE_PAD = 14;
+  const cc = cycleClass(cycle);
+
+  const rolesSet = new Set();
+  activities.forEach(act => whoList(act).forEach(r => rolesSet.add(r)));
+  const roles = CANONICAL_ORDER.filter(r => rolesSet.has(r));
+  const rIdx = Object.fromEntries(roles.map((r, i) => [r, i]));
+
+  // Split: fan-in origins (seq ≤ 11) vs consolidation (seq ≥ 12)
+  const originActs = activities.filter(a => a.Sequence <= 11);
+  const consolidateActs = activities.filter(a => a.Sequence >= 12).sort((a, b) => a.Sequence - b.Sequence);
+
+  // Compute local column index per person's row for origin activities
+  const localColPerRole = {};
+  const actColIdx = {};
+  originActs.forEach(act => {
+    const role = primaryRole(act, roles);
+    if (localColPerRole[role] === undefined) localColPerRole[role] = 0;
+    actColIdx[act.ID] = localColPerRole[role]++;
+  });
+
+  // Find max local col used across all rows
+  const maxLocalIdx = Math.max(...Object.values(localColPerRole).map(v => v - 1), 0);
+
+  // Consolidation activities get columns after the fan-in section
+  consolidateActs.forEach((act, i) => {
+    actColIdx[act.ID] = maxLocalIdx + 1 + i;
+  });
+
+  const totalCols = maxLocalIdx + 1 + consolidateActs.length;
+  const canvasW = PAD_X + totalCols * COL_W + PAD_X;
+  const canvasH = roles.length * ROW_H;
+
+  // Position helpers (ID-based, not sequence-based)
+  const bx  = id  => PAD_X + actColIdx[id] * COL_W;
+  const by  = ri  => ri * ROW_H + LANE_PAD;
+  const ex  = id  => bx(id) + BOX_W;
+  const cy  = ri  => ri * ROW_H + ROW_H / 2;
+  const enx = id  => bx(id);
+
+  const actMap = Object.fromEntries(activities.map(a => [a.ID, a]));
+
+  // ── Outer shell ──
+  const outer = document.createElement('div');
+  outer.className = 'swimlane-outer';
+
+  const hdr = document.createElement('div');
+  hdr.className = 'swimlane-header';
+  hdr.innerHTML = `<span class="cycle-dot ${cc}"></span>${stageName} <span style="font-size:11px;font-weight:400;color:var(--ink-faint);margin-left:8px">parallel inputs per person · consolidation at right · connectors are orthogonal</span>`;
+  outer.appendChild(hdr);
+
+  const scrollWrap = document.createElement('div');
+  scrollWrap.style.cssText = 'overflow-x:auto;';
+
+  const flexRow = document.createElement('div');
+  flexRow.style.cssText = 'display:flex;';
+
+  // ── Label column (sticky left) ──
+  const labelCol = document.createElement('div');
+  labelCol.style.cssText = `
+    flex-shrink:0; width:130px;
+    border-right:1px solid var(--border);
+    position:sticky; left:0; z-index:3; background:var(--white);
+  `;
+  roles.forEach((role, i) => {
+    const cell = document.createElement('div');
+    cell.style.cssText = `
+      height:${ROW_H}px; display:flex; align-items:center; padding:0 14px;
+      font-size:11px; font-weight:600; color:var(--ink-faint);
+      text-transform:uppercase; letter-spacing:0.05em;
+      background:#f8f8f8;
+      border-bottom:${i < roles.length - 1 ? '1px solid var(--border)' : 'none'};
+    `;
+    cell.textContent = role;
+    labelCol.appendChild(cell);
+  });
+
+  // ── Canvas ──
+  const canvas = document.createElement('div');
+  canvas.style.cssText = `position:relative; width:${canvasW}px; height:${canvasH}px; flex-shrink:0;`;
+
+  // Lane stripes
+  roles.forEach((_, i) => {
+    const lane = document.createElement('div');
+    lane.style.cssText = `
+      position:absolute; top:${i * ROW_H}px; left:0; width:${canvasW}px; height:${ROW_H}px;
+      background:${i % 2 ? 'rgba(0,0,0,0.018)' : 'transparent'};
+      border-bottom:${i < roles.length - 1 ? '1px solid #efefef' : 'none'};
+    `;
+    canvas.appendChild(lane);
+  });
+
+  // ── SVG — appended before boxes ──
+  const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+  svg.style.cssText = 'position:absolute;top:0;left:0;pointer-events:none;overflow:visible;';
+  svg.setAttribute('width', canvasW);
+  svg.setAttribute('height', canvasH);
+  svg.innerHTML = `<defs>
+    <marker id="ah-intake" markerUnits="userSpaceOnUse" markerWidth="9" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0,9 3.5,0 7" fill="#aaa"/>
+    </marker>
+  </defs>`;
+  canvas.appendChild(svg);
+
+  // Draw right-angle connectors
+  activities.forEach(act => {
+    const srcIds = parseRefIds(act['Receives from']).filter(id => stageIds.has(id));
+    if (!srcIds.length) return;
+
+    const tgtRole = primaryRole(act, roles);
+    const ri2 = rIdx[tgtRole];
+    const x2 = enx(act.ID);
+    const y2 = cy(ri2);
+
+    srcIds.forEach(srcId => {
+      const srcAct = actMap[srcId];
+      if (!srcAct) return;
+      const srcRole = primaryRole(srcAct, roles);
+      const ri1 = rIdx[srcRole];
+      const x1 = ex(srcId);
+      const y1 = cy(ri1);
+
+      let d;
+      if (ri1 === ri2) {
+        d = `M ${x1} ${y1} H ${x2}`;
+      } else {
+        const midX = Math.round((x1 + x2) / 2);
+        d = `M ${x1} ${y1} H ${midX} V ${y2} H ${x2}`;
+      }
+
+      const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+      path.setAttribute('d', d);
+      path.setAttribute('stroke', ri1 === ri2 ? '#d0d0d0' : '#aaa');
+      path.setAttribute('stroke-width', '1.5');
+      path.setAttribute('fill', 'none');
+      path.setAttribute('stroke-linecap', 'butt');
+      path.setAttribute('stroke-linejoin', 'miter');
+      path.setAttribute('marker-end', 'url(#ah-intake)');
+      svg.appendChild(path);
+    });
+  });
+
+  // ── Activity boxes — appended after SVG ──
+  activities.forEach(act => {
+    const role = primaryRole(act, roles);
+    const ri = rIdx[role];
+
+    const box = document.createElement('div');
+    box.className = 'flow-box';
+    box.dataset.actId = act.ID;
+    box.style.cssText = `
+      position:absolute; left:${bx(act.ID)}px; top:${by(ri)}px;
+      width:${BOX_W}px; min-height:52px;
+    `;
+    box.innerHTML = `<div class="flow-id">${act.ID}</div><div class="flow-label">${act.Activity}</div>`;
+
+    box.addEventListener('click', e => {
+      e.stopPropagation();
+      const panel = document.getElementById('flow-panel');
+      const existing = panel.querySelector('.flow-detail-card');
+      if (existing) {
+        const isSame = existing.dataset.forId === act.ID;
+        existing.remove();
+        canvas.querySelectorAll('.flow-box').forEach(b => b.classList.remove('highlighted'));
+        if (isSame) return;
+      }
+      const card = buildDetailCard(act);
+      card.classList.add('flow-detail-card');
+      card.dataset.forId = act.ID;
+      card.style.marginTop = '12px';
+      panel.appendChild(card);
+
+      canvas.querySelectorAll('.flow-box').forEach(b => b.classList.remove('highlighted'));
+      box.classList.add('highlighted');
+      parseRefIds(act['Receives from'])
+        .filter(id => stageIds.has(id))
+        .forEach(refId => {
+          const src = canvas.querySelector(`[data-act-id="${refId}"]`);
+          if (src) src.classList.add('highlighted');
+        });
+    });
+
+    canvas.appendChild(box);
+  });
+
+  flexRow.appendChild(labelCol);
+  flexRow.appendChild(canvas);
+  scrollWrap.appendChild(flexRow);
+  outer.appendChild(scrollWrap);
+
+  const hint = document.createElement('div');
+  hint.className = 'swimlane-hint';
+  hint.textContent = 'Intake: parallel inputs per person converge into consolidation activities at right. Connectors route at right angles. Click any activity for details.';
   outer.appendChild(hint);
 
   return outer;
