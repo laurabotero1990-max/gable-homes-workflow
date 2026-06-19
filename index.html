@@ -265,6 +265,100 @@
     border-top: 1px solid var(--border); position: sticky; left: 0;
   }
 
+  /* ── Portfolio ── */
+  .portfolio-list { display: flex; flex-direction: column; gap: 1px; border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; }
+  .project-row {
+    display: grid; grid-template-columns: 1fr 160px 140px 60px 140px 120px;
+    gap: 0; align-items: center;
+    background: var(--white); cursor: pointer;
+    transition: background 0.1s;
+    border-bottom: 1px solid var(--border);
+  }
+  .project-row:last-child { border-bottom: none; }
+  .project-row:hover { background: #f5f5f5; }
+  .project-row.active { background: #f0f4f8; }
+  .project-row > div { padding: 14px 16px; font-size: 13px; }
+  .project-row-hdr > div {
+    padding: 8px 16px; font-size: 11px; font-weight: 600;
+    text-transform: uppercase; letter-spacing: 0.07em; color: var(--ink-faint);
+    background: #f8f8f8;
+  }
+  .project-name { font-weight: 600; }
+  .project-status {
+    display: inline-block; font-size: 11px; font-weight: 500; padding: 2px 8px;
+    border-radius: 20px; white-space: nowrap;
+  }
+  .status-under   { background: #e6f4ea; color: #2d6a4f; }
+  .status-pre     { background: #fff8e6; color: #8a6000; }
+  .status-entitle { background: #f0f0f0; color: #555; }
+  .project-estimate { font-variant-numeric: tabular-nums; color: var(--ink-light); }
+
+  .portfolio-detail {
+    background: var(--white); border: 1px solid var(--border); border-radius: var(--radius);
+    margin-top: 16px; animation: fadeIn 0.15s ease; overflow: hidden;
+  }
+  .portfolio-detail-header {
+    padding: 20px 24px 16px; border-bottom: 1px solid var(--border);
+    display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap;
+  }
+  .portfolio-detail-header h2 { font-size: 17px; font-weight: 600; }
+  .portfolio-detail-header .phdr-meta { font-size: 13px; color: var(--ink-light); }
+
+  .portfolio-section { padding: 0 24px 24px; }
+  .portfolio-section + .portfolio-section { border-top: 1px solid var(--border); padding-top: 20px; }
+  .portfolio-section-label {
+    font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em;
+    color: var(--ink-faint); margin: 20px 0 14px;
+  }
+
+  /* SOV table */
+  .sov-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  .sov-table th {
+    text-align: left; font-size: 11px; font-weight: 600; color: var(--ink-faint);
+    text-transform: uppercase; letter-spacing: 0.06em;
+    padding: 0 12px 8px; border-bottom: 1px solid var(--border);
+  }
+  .sov-table th:first-child { padding-left: 0; }
+  .sov-table td { padding: 10px 12px; border-bottom: 1px solid #f0f0f0; }
+  .sov-table td:first-child { padding-left: 0; }
+  .sov-table tr:last-child td { border-bottom: none; }
+  .sov-table .num { text-align: right; font-variant-numeric: tabular-nums; }
+  .sov-total td { font-weight: 600; border-top: 1px solid var(--border); border-bottom: none; padding-top: 12px; }
+
+  .confidence-tag {
+    display: inline-block; font-size: 11px; font-weight: 500; padding: 2px 7px;
+    border-radius: 20px; cursor: pointer; transition: opacity 0.1s; white-space: nowrap;
+  }
+  .confidence-tag:hover { opacity: 0.75; }
+  .conf-confirmed  { background: #e6f4ea; color: #2d6a4f; }
+  .conf-pending    { background: #fff8e6; color: #8a6000; }
+  .conf-flagged    { background: #fdecea; color: #b71c1c; }
+  .conf-missing    { background: #f0f0f0; color: #555; }
+  .conf-estimate   { background: #e8f0fe; color: #1a56a0; }
+  .conf-budget     { background: #f3e8ff; color: #6b21a8; }
+
+  .confidence-popover {
+    background: var(--white); border: 1px solid var(--border); border-radius: var(--radius);
+    padding: 14px 16px; margin-top: 8px; font-size: 13px;
+    animation: fadeIn 0.12s ease; display: flex; flex-direction: column; gap: 6px;
+  }
+  .confidence-popover strong { font-size: 12px; font-weight: 600; }
+  .confidence-popover .conf-when {
+    font-size: 11px; color: var(--ink-faint); font-style: italic;
+  }
+
+  /* Debt / Investor rows */
+  .profile-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 16px; }
+  .profile-card {
+    background: #f8f8f8; border: 1px solid var(--border); border-radius: var(--radius);
+    padding: 16px;
+  }
+  .profile-card-name { font-size: 13px; font-weight: 600; margin-bottom: 12px; }
+  .profile-field { display: flex; justify-content: space-between; gap: 8px; padding: 4px 0; font-size: 12px; border-bottom: 1px solid #ebebeb; }
+  .profile-field:last-child { border-bottom: none; }
+  .profile-field-label { color: var(--ink-faint); }
+  .profile-field-value { font-variant-numeric: tabular-nums; text-align: right; }
+
   @keyframes fadeIn { from { opacity: 0; transform: translateY(-4px); } to { opacity: 1; transform: none; } }
 
   @media (max-width: 640px) {
@@ -286,6 +380,7 @@
   <button class="active" data-tab="explore">Explore</button>
   <button data-tab="fulllist">Full list</button>
   <button data-tab="flow">Flow</button>
+  <button data-tab="portfolio">Portfolio</button>
 </nav>
 
 <main>
@@ -307,6 +402,10 @@
     <div class="section-label" style="margin-bottom:16px">Select a stage</div>
     <div class="flow-controls" id="flow-controls"></div>
     <div id="flow-panel"></div>
+  </div>
+
+  <div id="view-portfolio" class="view">
+    <div id="portfolio-content"></div>
   </div>
 </main>
 
@@ -1122,6 +1221,383 @@ function renderFlowIntake(cycle, stageName, activities, stageIds) {
   outer.appendChild(hint);
 
   return outer;
+}
+
+// ── Portfolio ─────────────────────────────────────────────────────────────
+let PORTFOLIO = null;
+let activeProjectName = null;
+
+fetch('portfolio.json')
+  .then(r => r.json())
+  .then(data => {
+    PORTFOLIO = data;
+    buildPortfolio();
+  });
+
+function fmt$(n) {
+  if (n == null) return '—';
+  return '$' + Number(n).toLocaleString();
+}
+function fmtPct(n) {
+  if (n == null) return '—';
+  return Math.round(n * 100) + '%';
+}
+function fmtRate(n) {
+  if (n == null) return '—';
+  return (n * 100).toFixed(2) + '%';
+}
+
+function statusClass(status) {
+  if (!status) return '';
+  const s = status.toLowerCase();
+  if (s.includes('under')) return 'status-under';
+  if (s.includes('pre')) return 'status-pre';
+  return 'status-entitle';
+}
+
+function confClass(term) {
+  const map = {
+    'Confirmed': 'conf-confirmed',
+    'Pending Confirmation': 'conf-pending',
+    'Flagged': 'conf-flagged',
+    'Missing': 'conf-missing',
+    'Estimate': 'conf-estimate',
+    'Budget': 'conf-budget',
+  };
+  return map[term] || 'conf-missing';
+}
+
+function buildPortfolio() {
+  const container = document.getElementById('portfolio-content');
+  container.innerHTML = '';
+
+  const projects = PORTFOLIO['Projects'];
+
+  // Header row
+  const hdr = document.createElement('div');
+  hdr.className = 'project-row project-row-hdr';
+  ['Project', 'Location', 'Type', 'Units', 'Status', 'Estimate'].forEach(label => {
+    const d = document.createElement('div');
+    d.textContent = label;
+    hdr.appendChild(d);
+  });
+
+  const list = document.createElement('div');
+  list.className = 'portfolio-list';
+  list.appendChild(hdr);
+
+  projects.forEach(proj => {
+    const row = document.createElement('div');
+    row.className = 'project-row';
+    row.dataset.project = proj.Project;
+
+    const name = document.createElement('div');
+    name.className = 'project-name';
+    name.textContent = proj.Project;
+
+    const loc = document.createElement('div');
+    loc.textContent = proj.Location;
+
+    const type = document.createElement('div');
+    type.textContent = proj.Type;
+
+    const units = document.createElement('div');
+    units.textContent = proj.Units;
+
+    const status = document.createElement('div');
+    const badge = document.createElement('span');
+    badge.className = 'project-status ' + statusClass(proj.Status);
+    badge.textContent = proj.Status;
+    status.appendChild(badge);
+
+    const est = document.createElement('div');
+    est.className = 'project-estimate';
+    est.textContent = fmt$(proj.Estimate);
+
+    row.appendChild(name);
+    row.appendChild(loc);
+    row.appendChild(type);
+    row.appendChild(units);
+    row.appendChild(status);
+    row.appendChild(est);
+
+    row.addEventListener('click', () => {
+      const isSame = activeProjectName === proj.Project;
+      // Clear existing detail
+      const existing = container.querySelector('.portfolio-detail');
+      if (existing) existing.remove();
+      container.querySelectorAll('.project-row').forEach(r => r.classList.remove('active'));
+
+      if (isSame) {
+        activeProjectName = null;
+        return;
+      }
+      activeProjectName = proj.Project;
+      row.classList.add('active');
+      container.appendChild(buildProjectDetail(proj));
+    });
+
+    list.appendChild(row);
+  });
+
+  container.appendChild(list);
+}
+
+function buildProjectDetail(proj) {
+  const pName = proj.Project;
+  const sovLines = PORTFOLIO['SOV Lines'].filter(r => r.Project === pName);
+  const debt = PORTFOLIO['Debt Profile'].find(r => r.Project === pName);
+  const investors = PORTFOLIO['Investor Profile'].filter(r => r.Project === pName);
+  const confDefs = Object.fromEntries(PORTFOLIO['Confidence Definitions'].map(r => [r.Term, r]));
+
+  const detail = document.createElement('div');
+  detail.className = 'portfolio-detail';
+
+  // Header
+  const phdr = document.createElement('div');
+  phdr.className = 'portfolio-detail-header';
+  phdr.innerHTML = `
+    <h2>${pName}</h2>
+    <span class="phdr-meta">${proj.Location} · ${proj.Type} · ${proj.Units} units</span>
+    <span class="project-status ${statusClass(proj.Status)}" style="margin-left:4px">${proj.Status}</span>
+  `;
+  detail.appendChild(phdr);
+
+  const body = document.createElement('div');
+
+  // ── SOV Section ──
+  const sovSection = document.createElement('div');
+  sovSection.className = 'portfolio-section';
+
+  const sovLabel = document.createElement('div');
+  sovLabel.className = 'portfolio-section-label';
+  sovLabel.textContent = 'Schedule of values';
+  sovSection.appendChild(sovLabel);
+
+  // Active popover tracker
+  let activePopover = null;
+  let activePopoverTerm = null;
+
+  const table = document.createElement('table');
+  table.className = 'sov-table';
+
+  const hasActuals = sovLines.some(r => r['Actual to Date'] != null);
+  const hasBudget  = sovLines.some(r => r['Budget'] != null);
+
+  let headerCols = ['Category'];
+  if (hasBudget) headerCols.push('Estimate', 'Budget');
+  else headerCols.push('Estimate');
+  if (hasActuals) headerCols.push('Actual to date', '% complete');
+  headerCols.push('Confidence');
+
+  const thead = document.createElement('thead');
+  thead.innerHTML = '<tr>' + headerCols.map((h, i) =>
+    `<th class="${i > 0 ? 'num' : ''}">${h}</th>`
+  ).join('') + '</tr>';
+  table.appendChild(thead);
+
+  const tbody = document.createElement('tbody');
+  let totalEst = 0, totalBudget = 0, totalActual = 0;
+
+  sovLines.forEach(line => {
+    totalEst    += line['Estimate'] || 0;
+    totalBudget += line['Budget']   || 0;
+    totalActual += line['Actual to Date'] || 0;
+
+    const tr = document.createElement('tr');
+
+    const tdCat = document.createElement('td');
+    tdCat.textContent = line.Category;
+    tr.appendChild(tdCat);
+
+    const tdEst = document.createElement('td');
+    tdEst.className = 'num';
+    tdEst.textContent = fmt$(line['Estimate']);
+    tr.appendChild(tdEst);
+
+    if (hasBudget) {
+      const tdBud = document.createElement('td');
+      tdBud.className = 'num';
+      tdBud.textContent = fmt$(line['Budget']);
+      tr.appendChild(tdBud);
+    }
+
+    if (hasActuals) {
+      const tdAct = document.createElement('td');
+      tdAct.className = 'num';
+      tdAct.textContent = fmt$(line['Actual to Date']);
+      tr.appendChild(tdAct);
+
+      const tdPct = document.createElement('td');
+      tdPct.className = 'num';
+      tdPct.textContent = fmtPct(line['Percent Complete']);
+      tr.appendChild(tdPct);
+    }
+
+    // Confidence tag — clickable
+    const tdConf = document.createElement('td');
+    const tag = document.createElement('span');
+    tag.className = 'confidence-tag ' + confClass(line.Confidence);
+    tag.textContent = line.Confidence;
+
+    const defRow = confDefs[line.Confidence];
+    if (defRow) {
+      tag.addEventListener('click', e => {
+        e.stopPropagation();
+        // toggle
+        if (activePopover && activePopoverTerm === line.Confidence) {
+          activePopover.remove();
+          activePopover = null;
+          activePopoverTerm = null;
+          return;
+        }
+        if (activePopover) activePopover.remove();
+
+        const pop = document.createElement('div');
+        pop.className = 'confidence-popover';
+        pop.innerHTML = `
+          <strong>${defRow.Term}</strong>
+          <div>${defRow.Meaning}</div>
+          <div class="conf-when">${defRow['When It Applies']}</div>
+        `;
+        activePopover = pop;
+        activePopoverTerm = line.Confidence;
+        tdConf.appendChild(pop);
+      });
+    }
+
+    tdConf.appendChild(tag);
+    tr.appendChild(tdConf);
+    tbody.appendChild(tr);
+  });
+
+  // Totals row
+  const tfoot = document.createElement('tfoot');
+  const trTot = document.createElement('tr');
+  trTot.className = 'sov-total';
+
+  const tdTotLabel = document.createElement('td');
+  tdTotLabel.textContent = 'Total';
+  trTot.appendChild(tdTotLabel);
+
+  const tdTotEst = document.createElement('td');
+  tdTotEst.className = 'num';
+  tdTotEst.textContent = fmt$(totalEst);
+  trTot.appendChild(tdTotEst);
+
+  if (hasBudget) {
+    const tdTotBud = document.createElement('td');
+    tdTotBud.className = 'num';
+    tdTotBud.textContent = fmt$(totalBudget);
+    trTot.appendChild(tdTotBud);
+  }
+
+  if (hasActuals) {
+    const tdTotAct = document.createElement('td');
+    tdTotAct.className = 'num';
+    tdTotAct.textContent = fmt$(totalActual);
+    trTot.appendChild(tdTotAct);
+
+    const tdTotPct = document.createElement('td');
+    tdTotPct.className = 'num';
+    const overall = totalBudget > 0 ? totalActual / totalBudget : null;
+    tdTotPct.textContent = fmtPct(overall);
+    trTot.appendChild(tdTotPct);
+  }
+
+  const tdTotConf = document.createElement('td');
+  trTot.appendChild(tdTotConf);
+
+  tfoot.appendChild(trTot);
+  table.appendChild(tbody);
+  table.appendChild(tfoot);
+  sovSection.appendChild(table);
+  body.appendChild(sovSection);
+
+  // ── Debt Section ──
+  if (debt) {
+    const debtSection = document.createElement('div');
+    debtSection.className = 'portfolio-section';
+
+    const debtLabel = document.createElement('div');
+    debtLabel.className = 'portfolio-section-label';
+    debtLabel.textContent = 'Debt';
+    debtSection.appendChild(debtLabel);
+
+    const grid = document.createElement('div');
+    grid.className = 'profile-grid';
+
+    const card = document.createElement('div');
+    card.className = 'profile-card';
+    card.innerHTML = `<div class="profile-card-name">${debt.Lender}</div>`;
+
+    [
+      ['Loan amount',       fmt$(debt['Loan Amount'])],
+      ['Drawn to date',     fmt$(debt['Drawn to Date'])],
+      ['Available to draw', fmt$(debt['Available to Draw'])],
+      ['Interest rate',     fmtRate(debt['Interest Rate'])],
+    ].forEach(([label, val]) => {
+      const f = document.createElement('div');
+      f.className = 'profile-field';
+      f.innerHTML = `<span class="profile-field-label">${label}</span><span class="profile-field-value">${val}</span>`;
+      card.appendChild(f);
+    });
+
+    grid.appendChild(card);
+    debtSection.appendChild(grid);
+    body.appendChild(debtSection);
+  }
+
+  // ── Equity Section ──
+  if (investors.length) {
+    const eqSection = document.createElement('div');
+    eqSection.className = 'portfolio-section';
+
+    const eqLabel = document.createElement('div');
+    eqLabel.className = 'portfolio-section-label';
+    eqLabel.textContent = 'Equity';
+    eqSection.appendChild(eqLabel);
+
+    const grid = document.createElement('div');
+    grid.className = 'profile-grid';
+
+    investors.forEach(inv => {
+      const card = document.createElement('div');
+      card.className = 'profile-card';
+      card.innerHTML = `<div class="profile-card-name">${inv.Investor}</div>`;
+
+      [
+        ['Amount committed', fmt$(inv['Amount Committed'])],
+        ['Amount invested',  fmt$(inv['Amount Invested'])],
+        ['Profit share',     fmtPct(inv['Profit Share'])],
+        ['Capital returned', fmt$(inv['Capital Returned to Date'])],
+        ['Projected return', inv['Projected Return'] || '—'],
+      ].forEach(([label, val]) => {
+        const f = document.createElement('div');
+        f.className = 'profile-field';
+        f.innerHTML = `<span class="profile-field-label">${label}</span><span class="profile-field-value">${val}</span>`;
+        card.appendChild(f);
+      });
+
+      grid.appendChild(card);
+    });
+
+    eqSection.appendChild(grid);
+    body.appendChild(eqSection);
+  }
+
+  detail.appendChild(body);
+
+  // Close popover on outside click
+  detail.addEventListener('click', () => {
+    if (activePopover) {
+      activePopover.remove();
+      activePopover = null;
+      activePopoverTerm = null;
+    }
+  });
+
+  return detail;
 }
 
 // Close flow detail card when clicking outside

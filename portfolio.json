@@ -1,0 +1,543 @@
+{
+  "Projects": [
+    {
+      "Project": "Pete Shaw",
+      "Location": "Woodstock GA",
+      "Type": "Single Home and Remodeling",
+      "Units": 2,
+      "Status": "Under construction",
+      "Estimate": 2360000
+    },
+    {
+      "Project": "Indian Town",
+      "Location": "Canton GA",
+      "Type": "Single Home",
+      "Units": 4,
+      "Status": "Under construction",
+      "Estimate": 5650000
+    },
+    {
+      "Project": "Mableton Pkwy",
+      "Location": "Mableton GA",
+      "Type": "Townhomes",
+      "Units": 15,
+      "Status": "Pre-construction",
+      "Estimate": 1170000
+    },
+    {
+      "Project": "Arnold Mill Rd",
+      "Location": "Canton GA",
+      "Type": "Condo and Commercial",
+      "Units": 9,
+      "Status": "Pre-construction",
+      "Estimate": 3072000
+    },
+    {
+      "Project": "Camp Highland",
+      "Location": "Canton GA",
+      "Type": "Townhomes",
+      "Units": 32,
+      "Status": "In entitlement",
+      "Estimate": 16500000
+    },
+    {
+      "Project": "Laurelwood",
+      "Location": "Canton GA",
+      "Type": "Townhomes",
+      "Units": 29,
+      "Status": "In entitlement",
+      "Estimate": 9470000
+    }
+  ],
+  "SOV Lines": [
+    {
+      "Project": "Pete Shaw",
+      "Category": "Materials",
+      "Estimate": 600000,
+      "Budget": 620000,
+      "Actual to Date": 410000,
+      "Percent Complete": 0.66,
+      "Confidence": "Confirmed"
+    },
+    {
+      "Project": "Pete Shaw",
+      "Category": "Subcontractor",
+      "Estimate": 750000,
+      "Budget": 780000,
+      "Actual to Date": 510000,
+      "Percent Complete": 0.65,
+      "Confidence": "Confirmed"
+    },
+    {
+      "Project": "Pete Shaw",
+      "Category": "Labor",
+      "Estimate": 300000,
+      "Budget": 310000,
+      "Actual to Date": 180000,
+      "Percent Complete": 0.58,
+      "Confidence": "Pending Confirmation"
+    },
+    {
+      "Project": "Pete Shaw",
+      "Category": "Permits and Fees",
+      "Estimate": 90000,
+      "Budget": 95000,
+      "Actual to Date": 95000,
+      "Percent Complete": 1,
+      "Confidence": "Confirmed"
+    },
+    {
+      "Project": "Pete Shaw",
+      "Category": "Equipment",
+      "Estimate": 130000,
+      "Budget": 140000,
+      "Actual to Date": 60000,
+      "Percent Complete": 0.43,
+      "Confidence": "Pending Confirmation"
+    },
+    {
+      "Project": "Pete Shaw",
+      "Category": "Overhead",
+      "Estimate": 100000,
+      "Budget": 105000,
+      "Actual to Date": 48000,
+      "Percent Complete": 0.46,
+      "Confidence": "Flagged"
+    },
+    {
+      "Project": "Indian Town",
+      "Category": "Materials",
+      "Estimate": 1900000,
+      "Budget": 1950000,
+      "Actual to Date": 410000,
+      "Percent Complete": 0.21,
+      "Confidence": "Confirmed"
+    },
+    {
+      "Project": "Indian Town",
+      "Category": "Subcontractor",
+      "Estimate": 2300000,
+      "Budget": 2350000,
+      "Actual to Date": 380000,
+      "Percent Complete": 0.16,
+      "Confidence": "Confirmed"
+    },
+    {
+      "Project": "Indian Town",
+      "Category": "Labor",
+      "Estimate": 850000,
+      "Budget": 870000,
+      "Actual to Date": 120000,
+      "Percent Complete": 0.14,
+      "Confidence": "Pending Confirmation"
+    },
+    {
+      "Project": "Indian Town",
+      "Category": "Permits and Fees",
+      "Estimate": 260000,
+      "Budget": 260000,
+      "Actual to Date": 260000,
+      "Percent Complete": 1,
+      "Confidence": "Confirmed"
+    },
+    {
+      "Project": "Indian Town",
+      "Category": "Equipment",
+      "Estimate": 380000,
+      "Budget": 390000,
+      "Actual to Date": 45000,
+      "Percent Complete": 0.12,
+      "Confidence": "Pending Confirmation"
+    },
+    {
+      "Project": "Indian Town",
+      "Category": "Overhead",
+      "Estimate": 310000,
+      "Budget": 320000,
+      "Actual to Date": 30000,
+      "Percent Complete": 0.09,
+      "Confidence": "Missing"
+    },
+    {
+      "Project": "Mableton Pkwy",
+      "Category": "Materials",
+      "Estimate": 480000,
+      "Budget": null,
+      "Actual to Date": null,
+      "Percent Complete": null,
+      "Confidence": "Estimate"
+    },
+    {
+      "Project": "Mableton Pkwy",
+      "Category": "Subcontractor",
+      "Estimate": 390000,
+      "Budget": null,
+      "Actual to Date": null,
+      "Percent Complete": null,
+      "Confidence": "Estimate"
+    },
+    {
+      "Project": "Mableton Pkwy",
+      "Category": "Labor",
+      "Estimate": 150000,
+      "Budget": null,
+      "Actual to Date": null,
+      "Percent Complete": null,
+      "Confidence": "Estimate"
+    },
+    {
+      "Project": "Mableton Pkwy",
+      "Category": "Permits and Fees",
+      "Estimate": 60000,
+      "Budget": null,
+      "Actual to Date": null,
+      "Percent Complete": null,
+      "Confidence": "Estimate"
+    },
+    {
+      "Project": "Mableton Pkwy",
+      "Category": "Equipment",
+      "Estimate": 70000,
+      "Budget": null,
+      "Actual to Date": null,
+      "Percent Complete": null,
+      "Confidence": "Estimate"
+    },
+    {
+      "Project": "Mableton Pkwy",
+      "Category": "Overhead",
+      "Estimate": 50000,
+      "Budget": null,
+      "Actual to Date": null,
+      "Percent Complete": null,
+      "Confidence": "Estimate"
+    },
+    {
+      "Project": "Arnold Mill Rd",
+      "Category": "Materials",
+      "Estimate": 1250000,
+      "Budget": null,
+      "Actual to Date": null,
+      "Percent Complete": null,
+      "Confidence": "Estimate"
+    },
+    {
+      "Project": "Arnold Mill Rd",
+      "Category": "Subcontractor",
+      "Estimate": 980000,
+      "Budget": null,
+      "Actual to Date": null,
+      "Percent Complete": null,
+      "Confidence": "Estimate"
+    },
+    {
+      "Project": "Arnold Mill Rd",
+      "Category": "Labor",
+      "Estimate": 420000,
+      "Budget": null,
+      "Actual to Date": null,
+      "Percent Complete": null,
+      "Confidence": "Estimate"
+    },
+    {
+      "Project": "Arnold Mill Rd",
+      "Category": "Permits and Fees",
+      "Estimate": 180000,
+      "Budget": null,
+      "Actual to Date": null,
+      "Percent Complete": null,
+      "Confidence": "Estimate"
+    },
+    {
+      "Project": "Arnold Mill Rd",
+      "Category": "Equipment",
+      "Estimate": 150000,
+      "Budget": null,
+      "Actual to Date": null,
+      "Percent Complete": null,
+      "Confidence": "Estimate"
+    },
+    {
+      "Project": "Arnold Mill Rd",
+      "Category": "Overhead",
+      "Estimate": 92000,
+      "Budget": null,
+      "Actual to Date": null,
+      "Percent Complete": null,
+      "Confidence": "Estimate"
+    },
+    {
+      "Project": "Camp Highland",
+      "Category": "Materials",
+      "Estimate": 6800000,
+      "Budget": null,
+      "Actual to Date": null,
+      "Percent Complete": null,
+      "Confidence": "Estimate"
+    },
+    {
+      "Project": "Camp Highland",
+      "Category": "Subcontractor",
+      "Estimate": 5200000,
+      "Budget": null,
+      "Actual to Date": null,
+      "Percent Complete": null,
+      "Confidence": "Estimate"
+    },
+    {
+      "Project": "Camp Highland",
+      "Category": "Labor",
+      "Estimate": 2100000,
+      "Budget": null,
+      "Actual to Date": null,
+      "Percent Complete": null,
+      "Confidence": "Estimate"
+    },
+    {
+      "Project": "Camp Highland",
+      "Category": "Permits and Fees",
+      "Estimate": 850000,
+      "Budget": null,
+      "Actual to Date": null,
+      "Percent Complete": null,
+      "Confidence": "Estimate"
+    },
+    {
+      "Project": "Camp Highland",
+      "Category": "Equipment",
+      "Estimate": 980000,
+      "Budget": null,
+      "Actual to Date": null,
+      "Percent Complete": null,
+      "Confidence": "Estimate"
+    },
+    {
+      "Project": "Camp Highland",
+      "Category": "Overhead",
+      "Estimate": 570000,
+      "Budget": null,
+      "Actual to Date": null,
+      "Percent Complete": null,
+      "Confidence": "Estimate"
+    },
+    {
+      "Project": "Laurelwood",
+      "Category": "Materials",
+      "Estimate": 3900000,
+      "Budget": null,
+      "Actual to Date": null,
+      "Percent Complete": null,
+      "Confidence": "Estimate"
+    },
+    {
+      "Project": "Laurelwood",
+      "Category": "Subcontractor",
+      "Estimate": 2950000,
+      "Budget": null,
+      "Actual to Date": null,
+      "Percent Complete": null,
+      "Confidence": "Estimate"
+    },
+    {
+      "Project": "Laurelwood",
+      "Category": "Labor",
+      "Estimate": 1200000,
+      "Budget": null,
+      "Actual to Date": null,
+      "Percent Complete": null,
+      "Confidence": "Estimate"
+    },
+    {
+      "Project": "Laurelwood",
+      "Category": "Permits and Fees",
+      "Estimate": 480000,
+      "Budget": null,
+      "Actual to Date": null,
+      "Percent Complete": null,
+      "Confidence": "Estimate"
+    },
+    {
+      "Project": "Laurelwood",
+      "Category": "Equipment",
+      "Estimate": 560000,
+      "Budget": null,
+      "Actual to Date": null,
+      "Percent Complete": null,
+      "Confidence": "Estimate"
+    },
+    {
+      "Project": "Laurelwood",
+      "Category": "Overhead",
+      "Estimate": 380000,
+      "Budget": null,
+      "Actual to Date": null,
+      "Percent Complete": null,
+      "Confidence": "Estimate"
+    }
+  ],
+  "Confidence Definitions": [
+    {
+      "Term": "Estimate",
+      "Meaning": "The original cost projection Javier produced before construction began, the industry term for the pre-construction budget projection",
+      "When It Applies": "Before a project crosses into the operational workflow, before a Budget exists"
+    },
+    {
+      "Term": "Budget",
+      "Meaning": "The Schedule of Values amount approved once the loan is in place and construction begins, this becomes the figure the bank's draw schedule is measured against",
+      "When It Applies": "Once a project is under construction"
+    },
+    {
+      "Term": "Confirmed",
+      "Meaning": "The actual cost figure is backed by a document BTZL has fully verified, an invoice, a signed lien waiver, a bank statement line",
+      "When It Applies": "Applied to any Actual to Date figure"
+    },
+    {
+      "Term": "Pending Confirmation",
+      "Meaning": "The actual cost figure is based on an order, a pattern, or a partial document, with final confirmation still pending",
+      "When It Applies": "Applied to any Actual to Date figure"
+    },
+    {
+      "Term": "Flagged",
+      "Meaning": "Something about this figure doesn't add up or conflicts with another document, requiring a confirmation request before it can be trusted",
+      "When It Applies": "Applied to any Actual to Date figure"
+    },
+    {
+      "Term": "Missing",
+      "Meaning": "A cost is known to exist but no supporting document has arrived yet",
+      "When It Applies": "Applied to any Actual to Date figure"
+    }
+  ],
+  "Debt Profile": [
+    {
+      "Project": "Pete Shaw",
+      "Lender": "Bank 1",
+      "Loan Amount": 1950000,
+      "Drawn to Date": 1250000,
+      "Available to Draw": 700000,
+      "Interest Rate": 0.0825
+    },
+    {
+      "Project": "Indian Town",
+      "Lender": "Bank 2",
+      "Loan Amount": 4200000,
+      "Drawn to Date": 670000,
+      "Available to Draw": 3530000,
+      "Interest Rate": 0.085
+    },
+    {
+      "Project": "Mableton Pkwy",
+      "Lender": "Private Lender 1",
+      "Loan Amount": 950000,
+      "Drawn to Date": 0,
+      "Available to Draw": 950000,
+      "Interest Rate": 0.095
+    },
+    {
+      "Project": "Arnold Mill Rd",
+      "Lender": "Bank 1",
+      "Loan Amount": 2650000,
+      "Drawn to Date": 0,
+      "Available to Draw": 2650000,
+      "Interest Rate": 0.0825
+    },
+    {
+      "Project": "Camp Highland",
+      "Lender": "Bank 2",
+      "Loan Amount": 13500000,
+      "Drawn to Date": 0,
+      "Available to Draw": 13500000,
+      "Interest Rate": 0.085
+    },
+    {
+      "Project": "Laurelwood",
+      "Lender": "Private Lender 2",
+      "Loan Amount": 6700000,
+      "Drawn to Date": 0,
+      "Available to Draw": 6700000,
+      "Interest Rate": 0.0975
+    }
+  ],
+  "Investor Profile": [
+    {
+      "Project": "Pete Shaw",
+      "Investor": "Fernando Chavarria",
+      "Amount Committed": 410000,
+      "Amount Invested": 410000,
+      "Profit Share": 1,
+      "Capital Returned to Date": 0,
+      "Projected Return": "X%"
+    },
+    {
+      "Project": "Indian Town",
+      "Investor": "Fernando Chavarria",
+      "Amount Committed": 600000,
+      "Amount Invested": 600000,
+      "Profit Share": 0.85,
+      "Capital Returned to Date": 0,
+      "Projected Return": "X%"
+    },
+    {
+      "Project": "Indian Town",
+      "Investor": "Investor A",
+      "Amount Committed": 850000,
+      "Amount Invested": 850000,
+      "Profit Share": 0.15,
+      "Capital Returned to Date": 0,
+      "Projected Return": "X%"
+    },
+    {
+      "Project": "Mableton Pkwy",
+      "Investor": "Fernando Chavarria",
+      "Amount Committed": 220000,
+      "Amount Invested": 0,
+      "Profit Share": 1,
+      "Capital Returned to Date": 0,
+      "Projected Return": "X%"
+    },
+    {
+      "Project": "Arnold Mill Rd",
+      "Investor": "Fernando Chavarria",
+      "Amount Committed": 422000,
+      "Amount Invested": 0,
+      "Profit Share": 1,
+      "Capital Returned to Date": 0,
+      "Projected Return": "X%"
+    },
+    {
+      "Project": "Camp Highland",
+      "Investor": "Fernando Chavarria",
+      "Amount Committed": 800000,
+      "Amount Invested": 0,
+      "Profit Share": 0.84,
+      "Capital Returned to Date": 0,
+      "Projected Return": "X%"
+    },
+    {
+      "Project": "Camp Highland",
+      "Investor": "Investor A",
+      "Amount Committed": 2200000,
+      "Amount Invested": 0,
+      "Profit Share": 0.16,
+      "Capital Returned to Date": 0,
+      "Projected Return": "X%"
+    },
+    {
+      "Project": "Laurelwood",
+      "Investor": "Fernando Chavarria",
+      "Amount Committed": 1370000,
+      "Amount Invested": 0,
+      "Profit Share": 0.82,
+      "Capital Returned to Date": 0,
+      "Projected Return": "X%"
+    },
+    {
+      "Project": "Laurelwood",
+      "Investor": "Investor B",
+      "Amount Committed": 1400000,
+      "Amount Invested": 0,
+      "Profit Share": 0.18,
+      "Capital Returned to Date": 0,
+      "Projected Return": "X%"
+    }
+  ]
+}
