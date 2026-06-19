@@ -680,43 +680,15 @@ function buildFullList() {
     section.className = 'phase-group';
     section.innerHTML = `<div class="phase-group-label ${cc}">${cycle} — ${name}</div>`;
 
-    const wrap = document.createElement('div');
-    wrap.style.cssText = 'border:1px solid var(--border); border-radius:var(--radius); overflow:hidden; background:var(--white);';
-
-    const table = document.createElement('table');
-    table.style.cssText = 'width:100%; border-collapse:collapse; font-size:13px;';
-
-    // Header
-    const thead = document.createElement('thead');
-    thead.innerHTML = `<tr>
-      <th style="width:52px; padding:9px 12px; text-align:left; font-size:11px; font-weight:400; color:var(--ink-faint); border-bottom:1px solid var(--border);">ID</th>
-      <th style="padding:9px 12px; text-align:left; font-size:11px; font-weight:400; color:var(--ink-faint); border-bottom:1px solid var(--border);">Activity</th>
-      <th style="width:180px; padding:9px 12px; text-align:left; font-size:11px; font-weight:400; color:var(--ink-faint); border-bottom:1px solid var(--border);">Who</th>
-      <th style="width:130px; padding:9px 12px; text-align:left; font-size:11px; font-weight:400; color:var(--ink-faint); border-bottom:1px solid var(--border);">Frequency</th>
-      <th style="width:200px; padding:9px 12px; text-align:left; font-size:11px; font-weight:400; color:var(--ink-faint); border-bottom:1px solid var(--border);">Channel</th>
-      <th style="width:240px; padding:9px 12px; text-align:left; font-size:11px; font-weight:400; color:var(--ink-faint); border-bottom:1px solid var(--border);">Must</th>
-    </tr>`;
-    table.appendChild(thead);
-
-    const tbody = document.createElement('tbody');
-    activities.forEach((act, i) => {
-      const tr = document.createElement('tr');
-      const border = i < activities.length - 1 ? '1px solid #f0f0f0' : 'none';
-      const tdStyle = `padding:12px 12px; vertical-align:top; border-bottom:${border};`;
-      tr.innerHTML = `
-        <td style="${tdStyle} color:var(--ink-faint); font-size:11px; white-space:nowrap;">${act.ID}</td>
-        <td style="${tdStyle}">${act.Activity}</td>
-        <td style="${tdStyle} color:var(--ink-light);">${act['Who does it']}</td>
-        <td style="${tdStyle} color:var(--ink-light);">${act.Frequency}</td>
-        <td style="${tdStyle} color:var(--ink-light);">${act.Channel}</td>
-        <td style="${tdStyle} background:var(--must-bg); border-left:1px solid var(--must-border);">${act.Must}</td>
-      `;
-      tbody.appendChild(tr);
+    const ul = document.createElement('ul');
+    ul.className = 'activity-list';
+    activities.forEach(act => {
+      const li = document.createElement('li');
+      li.className = 'activity-item';
+      li.appendChild(buildDetailCard(act));
+      ul.appendChild(li);
     });
-
-    table.appendChild(tbody);
-    wrap.appendChild(table);
-    section.appendChild(wrap);
+    section.appendChild(ul);
     container.appendChild(section);
   });
 }
