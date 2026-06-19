@@ -1477,7 +1477,7 @@ function buildInvestorSummary() {
   return buildGroupedCards(groups);
 }
 
-function buildDetailCollapsible(title, contentEl) {
+function buildDetailCollapsible(title, contentEl, startOpen = false) {
   const section = document.createElement('div');
   section.className = 'portfolio-section';
 
@@ -1501,8 +1501,9 @@ function buildDetailCollapsible(title, contentEl) {
   toggle.appendChild(titleSpan);
   section.appendChild(toggle);
 
-  contentEl.style.display = 'none';
+  contentEl.style.display = startOpen ? '' : 'none';
   contentEl.style.marginTop = '14px';
+  if (startOpen) arrow.style.transform = 'rotate(90deg)';
   section.appendChild(contentEl);
 
   toggle.addEventListener('click', () => {
@@ -1536,18 +1537,12 @@ function buildProjectDetail(proj) {
 
   const body = document.createElement('div');
 
-  // ── SOV Section ──
-  const sovSection = document.createElement('div');
-  sovSection.className = 'portfolio-section';
-
-  const sovLabel = document.createElement('div');
-  sovLabel.className = 'portfolio-section-label';
-  sovLabel.textContent = 'Schedule of values';
-  sovSection.appendChild(sovLabel);
-
   // Active popover tracker
   let activePopover = null;
   let activePopoverTerm = null;
+
+  // ── SOV Section ──
+  const sovSection = document.createElement('div');
 
   const table = document.createElement('table');
   table.className = 'sov-table';
@@ -1683,18 +1678,10 @@ function buildProjectDetail(proj) {
   table.appendChild(tbody);
   table.appendChild(tfoot);
   sovSection.appendChild(table);
-  body.appendChild(sovSection);
+  body.appendChild(buildDetailCollapsible('Schedule of values', sovSection, true));
 
-  // ── Debt Section ──
+  // ── Debt Profile Section ──
   if (debt) {
-    const debtSection = document.createElement('div');
-    debtSection.className = 'portfolio-section';
-
-    const debtLabel = document.createElement('div');
-    debtLabel.className = 'portfolio-section-label';
-    debtLabel.textContent = 'Debt';
-    debtSection.appendChild(debtLabel);
-
     const grid = document.createElement('div');
     grid.className = 'profile-grid';
 
@@ -1715,20 +1702,11 @@ function buildProjectDetail(proj) {
     });
 
     grid.appendChild(card);
-    debtSection.appendChild(grid);
-    body.appendChild(debtSection);
+    body.appendChild(buildDetailCollapsible('Debt profile', grid, false));
   }
 
-  // ── Equity Section ──
+  // ── Investor Profile Section ──
   if (investors.length) {
-    const eqSection = document.createElement('div');
-    eqSection.className = 'portfolio-section';
-
-    const eqLabel = document.createElement('div');
-    eqLabel.className = 'portfolio-section-label';
-    eqLabel.textContent = 'Equity';
-    eqSection.appendChild(eqLabel);
-
     const grid = document.createElement('div');
     grid.className = 'profile-grid';
 
@@ -1753,8 +1731,7 @@ function buildProjectDetail(proj) {
       grid.appendChild(card);
     });
 
-    eqSection.appendChild(grid);
-    body.appendChild(eqSection);
+    body.appendChild(buildDetailCollapsible('Investor profile', grid, false));
   }
 
   detail.appendChild(body);
