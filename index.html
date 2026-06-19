@@ -682,10 +682,47 @@ function buildFullList() {
 
     const ul = document.createElement('ul');
     ul.className = 'activity-list';
-    activities.forEach(act => ul.appendChild(activityLi(act)));
+    activities.forEach(act => ul.appendChild(activityLiExpanded(act)));
     section.appendChild(ul);
     container.appendChild(section);
   });
+}
+
+function activityLiExpanded(act) {
+  const li = document.createElement('li');
+  li.className = 'activity-item';
+  li.style.cursor = 'default';
+
+  const row = document.createElement('div');
+  row.className = 'activity-item-row';
+  row.style.cssText = 'padding-bottom:4px; pointer-events:none;';
+  row.innerHTML = `
+    <span class="activity-id">${act.ID}</span>
+    <span class="activity-title" style="font-weight:600">${act.Activity}</span>
+  `;
+  li.appendChild(row);
+
+  const fields = document.createElement('div');
+  fields.className = 'detail-fields';
+  fields.style.cssText = 'padding: 0 0 14px 54px;';
+
+  [
+    ['Who',       act['Who does it'], false],
+    ['Frequency', act.Frequency,      false],
+    ['Channel',   act.Channel,        false],
+    ['Must',      act.Must,           true],
+  ].forEach(([label, value, isMust]) => {
+    const f = document.createElement('div');
+    f.className = 'detail-field' + (isMust ? ' must-field' : '');
+    f.innerHTML = `
+      <span class="detail-field-label">${label}</span>
+      <span class="detail-field-value">${value}</span>
+    `;
+    fields.appendChild(f);
+  });
+
+  li.appendChild(fields);
+  return li;
 }
 
 // ── Flow ──────────────────────────────────────────────────────────────────
