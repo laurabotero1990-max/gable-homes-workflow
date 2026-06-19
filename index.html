@@ -1341,6 +1341,127 @@ function buildPortfolio() {
   });
 
   container.appendChild(list);
+
+  // ── Debt by lender summary ──
+  container.appendChild(buildDebtSummary());
+
+  // ── Equity by investor summary ──
+  container.appendChild(buildInvestorSummary());
+}
+
+function buildSummaryTable(title, headers, rows) {
+  const wrap = document.createElement('div');
+  wrap.style.cssText = 'margin-top:28px;';
+
+  const label = document.createElement('div');
+  label.className = 'section-label';
+  label.textContent = title;
+  wrap.appendChild(label);
+
+  const tableWrap = document.createElement('div');
+  tableWrap.style.cssText = 'border:1px solid var(--border); border-radius:var(--radius); overflow:hidden; margin-top:12px; background:var(--white);';
+
+  const table = document.createElement('table');
+  table.className = 'sov-table';
+  table.style.cssText = 'width:100%;';
+
+  const thead = document.createElement('thead');
+  thead.innerHTML = '<tr>' + headers.map((h, i) =>
+    `<th class="${h.num ? 'num' : ''}">${h.label}</th>`
+  ).join('') + '</tr>';
+  table.appendChild(thead);
+
+  const tbody = document.createElement('tbody');
+  rows.forEach(cells => {
+    const tr = document.createElement('tr');
+    cells.forEach((cell, i) => {
+      const td = document.createElement('td');
+      td.className = headers[i].num ? 'num' : '';
+      if (typeof cell === 'string' || typeof cell === 'number') {
+        td.textContent = cell;
+      } else {
+        td.appendChild(cell);
+      }
+      tr.appendChild(td);
+    });
+    tbody.appendChild(tr);
+  });
+  table.appendChild(tbody);
+  tableWrap.appendChild(table);
+  wrap.appendChild(tableWrap);
+  return wrap;
+}
+
+function buildDebtSummary() {
+  const debtRows = PORTFOLIO['Debt Profile'];
+
+  // Group by lender
+  const byLender = {};
+  debtRows.forEach(r => {
+    if (!byLender[r.Lender]) byLender[r.Lender] = [];
+    byLender[r.Lender].push(r);
+  });
+
+  const headers = [
+    { label: 'Lender' },
+    { label: 'Project' },
+    { label: 'Loan amount', num: true },
+    { label: 'Drawn to date', num: true },
+    { label: 'Available to draw', num: true },
+    { label: 'Interest rate', num: true },
+  ];
+
+  const tableRows = [];
+  Object.entries(byLender).forEach(([lender, rows]) => {
+    rows.forEach((r, i) => {
+      tableRows.push([
+        i === 0 ? lender : '',
+        r.Project,
+        fmt$(r['Loan Amount']),
+        fmt$(r['Drawn to Date']),
+        fmt$(r['Available to Draw']),
+        fmtRate(r['Interest Rate']),
+      ]);
+    });
+  });
+
+  return buildSummaryTable('Debt by lender', headers, tableRows);
+}
+
+function buildInvestorSummary() {
+  const invRows = PORTFOLIO['Investor Profile'];
+
+  // Group by investor
+  const byInvestor = {};
+  invRows.forEach(r => {
+    if (!byInvestor[r.Investor]) byInvestor[r.Investor] = [];
+    byInvestor[r.Investor].push(r);
+  });
+
+  const headers = [
+    { label: 'Investor' },
+    { label: 'Project' },
+    { label: 'Amount committed', num: true },
+    { label: 'Amount invested', num: true },
+    { label: 'Profit share', num: true },
+    { label: 'Capital returned', num: true },
+  ];
+
+  const tableRows = [];
+  Object.entries(byInvestor).forEach(([investor, rows]) => {
+    rows.forEach((r, i) => {
+      tableRows.push([
+        i === 0 ? investor : '',
+        r.Project,
+        fmt$(r['Amount Committed']),
+        fmt$(r['Amount Invested']),
+        fmtPct(r['Profit Share']),
+        fmt$(r['Capital Returned to Date']),
+      ]);
+    });
+  });
+
+  return buildSummaryTable('Equity by investor', headers, tableRows);
 }
 
 function buildProjectDetail(proj) {
