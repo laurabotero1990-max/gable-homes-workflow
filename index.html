@@ -16,14 +16,9 @@
     --white: #ffffff;
     --weekly: #1a3a5c;
     --monthly: #2d6a4f;
-    --accent: #c0392b;
-    --tag-bg: #f0f0f0;
-    --selected-bg: #1a3a5c;
-    --selected-fg: #ffffff;
+    --radius: 4px;
     --must-bg: #fff8f0;
     --must-border: #f0c080;
-    --radius: 4px;
-    --gap: 24px;
   }
 
   body {
@@ -35,7 +30,6 @@
     min-height: 100vh;
   }
 
-  /* ── Header ── */
   header {
     background: var(--white);
     border-bottom: 1px solid var(--border);
@@ -47,13 +41,11 @@
   header h1 { font-size: 18px; font-weight: 600; letter-spacing: -0.3px; }
   header span { font-size: 13px; color: var(--ink-light); }
 
-  /* ── Tabs ── */
   nav {
     background: var(--white);
     border-bottom: 1px solid var(--border);
     padding: 0 32px;
     display: flex;
-    gap: 0;
   }
   nav button {
     background: none;
@@ -68,13 +60,11 @@
   nav button:hover { color: var(--ink); }
   nav button.active { color: var(--ink); border-bottom-color: var(--ink); font-weight: 500; }
 
-  /* ── Main layout ── */
-  main { padding: 32px; max-width: 1100px; margin: 0 auto; }
+  main { padding: 32px; max-width: 1140px; margin: 0 auto; }
 
   .view { display: none; }
   .view.active { display: block; }
 
-  /* ── Section labels ── */
   .section-label {
     font-size: 11px;
     font-weight: 600;
@@ -84,383 +74,204 @@
     margin-bottom: 12px;
   }
 
-  /* ── Phase map (Explore tab) ── */
-  .phase-map { margin-bottom: 40px; }
-
-  .cycle-track {
-    margin-bottom: 28px;
-  }
-  .cycle-header {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    margin-bottom: 12px;
-  }
+  /* ── Explore: cycle tracks ── */
+  .cycle-track { margin-bottom: 28px; }
+  .cycle-header { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; }
   .cycle-badge {
-    font-size: 11px;
-    font-weight: 600;
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
-    padding: 3px 10px;
-    border-radius: 20px;
-    color: var(--white);
+    font-size: 11px; font-weight: 600; letter-spacing: 0.06em;
+    text-transform: uppercase; padding: 3px 10px; border-radius: 20px; color: var(--white);
   }
   .cycle-badge.weekly { background: var(--weekly); }
   .cycle-badge.monthly { background: var(--monthly); }
 
-  .phase-nodes {
-    display: flex;
-    align-items: stretch;
-    gap: 0;
-    flex-wrap: wrap;
-    gap: 8px;
-  }
+  .stage-nodes { display: flex; flex-wrap: wrap; gap: 8px; }
 
   .bookend-node {
-    padding: 10px 16px;
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    background: var(--white);
-    font-size: 13px;
-    color: var(--ink-faint);
-    font-style: italic;
-    display: flex;
-    align-items: center;
+    padding: 10px 16px; border: 1px solid var(--border); border-radius: var(--radius);
+    background: var(--white); font-size: 13px; color: var(--ink-faint); font-style: italic;
+    display: flex; align-items: center;
   }
 
-  .phase-node {
-    padding: 10px 18px;
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    background: var(--white);
-    font-size: 13px;
-    cursor: pointer;
+  .stage-node {
+    padding: 10px 18px; border: 1px solid var(--border); border-radius: var(--radius);
+    background: var(--white); font-size: 13px; cursor: pointer;
     transition: background 0.12s, border-color 0.12s, color 0.12s;
-    user-select: none;
-    display: flex;
-    align-items: center;
-    gap: 8px;
+    user-select: none; display: flex; align-items: center; gap: 8px;
   }
-  .phase-node:hover { border-color: #aaa; }
-  .phase-node.active-weekly {
-    background: var(--weekly);
-    border-color: var(--weekly);
-    color: var(--white);
-  }
-  .phase-node.active-monthly {
-    background: var(--monthly);
-    border-color: var(--monthly);
-    color: var(--white);
-  }
-  .phase-node .count {
-    font-size: 11px;
-    opacity: 0.65;
-  }
+  .stage-node:hover { border-color: #aaa; }
+  .stage-node.active-weekly { background: var(--weekly); border-color: var(--weekly); color: var(--white); }
+  .stage-node.active-monthly { background: var(--monthly); border-color: var(--monthly); color: var(--white); }
+  .stage-node .count { font-size: 11px; opacity: 0.65; }
 
-  /* ── Phase detail panel ── */
-  .phase-detail {
-    background: var(--white);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    padding: 24px;
-    margin-top: 8px;
-    animation: fadeIn 0.15s ease;
+  /* ── Stage detail panel ── */
+  .stage-detail {
+    background: var(--white); border: 1px solid var(--border); border-radius: var(--radius);
+    padding: 24px; margin-top: 8px; animation: fadeIn 0.15s ease;
   }
-  .phase-detail h3 {
-    font-size: 15px;
-    font-weight: 600;
-    margin-bottom: 16px;
-    display: flex;
-    align-items: center;
-    gap: 10px;
+  .stage-detail h3 {
+    font-size: 15px; font-weight: 600; margin-bottom: 16px;
+    display: flex; align-items: center; gap: 10px;
   }
-  .phase-detail h3 .phase-tag {
-    font-size: 11px;
-    font-weight: 500;
-    padding: 2px 8px;
-    border-radius: 20px;
-    color: var(--white);
+  .stage-tag {
+    font-size: 11px; font-weight: 500; padding: 2px 8px;
+    border-radius: 20px; color: var(--white);
   }
-  .phase-detail h3 .phase-tag.weekly { background: var(--weekly); }
-  .phase-detail h3 .phase-tag.monthly { background: var(--monthly); }
+  .stage-tag.weekly { background: var(--weekly); }
+  .stage-tag.monthly { background: var(--monthly); }
 
-  /* ── People row ── */
-  .people-section { margin-top: 32px; margin-bottom: 8px; }
-  .people-row {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-    margin-top: 12px;
-  }
+  /* ── People ── */
+  .people-section { margin-top: 32px; }
+  .people-row { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
   .person-chip {
-    padding: 7px 16px;
-    border: 1px solid var(--border);
-    border-radius: 100px;
-    background: var(--white);
-    font-size: 13px;
-    cursor: pointer;
-    transition: background 0.12s, border-color 0.12s, color 0.12s;
-    user-select: none;
+    padding: 7px 16px; border: 1px solid var(--border); border-radius: 100px;
+    background: var(--white); font-size: 13px; cursor: pointer;
+    transition: background 0.12s, border-color 0.12s, color 0.12s; user-select: none;
   }
   .person-chip:hover { border-color: #aaa; }
-  .person-chip.active {
-    background: var(--ink);
-    border-color: var(--ink);
-    color: var(--white);
-  }
+  .person-chip.active { background: var(--ink); border-color: var(--ink); color: var(--white); }
 
-  /* ── Person panel ── */
   .person-detail {
-    background: var(--white);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    padding: 24px;
-    margin-top: 12px;
-    animation: fadeIn 0.15s ease;
+    background: var(--white); border: 1px solid var(--border); border-radius: var(--radius);
+    padding: 24px; margin-top: 12px; animation: fadeIn 0.15s ease;
   }
   .person-detail h3 { font-size: 15px; font-weight: 600; margin-bottom: 4px; }
   .person-role { font-size: 13px; color: var(--ink-light); margin-bottom: 20px; }
-  .person-detail h4 { font-size: 12px; font-weight: 600; color: var(--ink-faint); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 12px; }
-
-  /* ── Activity list (shared) ── */
-  .activity-list { list-style: none; }
-  .activity-item {
-    border-bottom: 1px solid var(--border);
-    cursor: pointer;
+  .person-detail h4 {
+    font-size: 12px; font-weight: 600; color: var(--ink-faint);
+    text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 12px;
   }
+
+  /* ── Activity list ── */
+  .activity-list { list-style: none; }
+  .activity-item { border-bottom: 1px solid var(--border); cursor: pointer; }
   .activity-item:last-child { border-bottom: none; }
   .activity-item-row {
-    display: flex;
-    align-items: baseline;
-    gap: 12px;
-    padding: 10px 0;
+    display: flex; align-items: baseline; gap: 12px; padding: 10px 0;
     transition: background 0.1s;
   }
-  .activity-item-row:hover { background: #f5f5f5; margin: 0 -12px; padding: 10px 12px; border-radius: var(--radius); }
-  .activity-num {
-    font-size: 11px;
-    color: var(--ink-faint);
-    min-width: 28px;
-    font-variant-numeric: tabular-nums;
+  .activity-item-row:hover {
+    background: #f5f5f5; margin: 0 -12px; padding: 10px 12px; border-radius: var(--radius);
   }
+  .activity-id { font-size: 11px; color: var(--ink-faint); min-width: 42px; font-variant-numeric: tabular-nums; }
   .activity-title { flex: 1; font-size: 13px; }
-  .activity-who {
-    font-size: 12px;
-    color: var(--ink-light);
-    white-space: nowrap;
-  }
+  .activity-who { font-size: 12px; color: var(--ink-light); white-space: nowrap; }
 
   /* ── Detail card ── */
   .detail-card {
-    background: #f8f8f8;
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    padding: 20px;
-    margin-top: 4px;
-    animation: fadeIn 0.12s ease;
+    background: #f8f8f8; border: 1px solid var(--border); border-radius: var(--radius);
+    padding: 20px; margin-top: 4px; animation: fadeIn 0.12s ease;
   }
-  .detail-card-header {
-    font-size: 14px;
-    font-weight: 600;
-    margin-bottom: 16px;
-  }
+  .detail-card-header { font-size: 14px; font-weight: 600; margin-bottom: 16px; }
   .detail-fields { display: flex; flex-direction: column; gap: 10px; }
-  .detail-field {
-    display: flex;
-    gap: 12px;
-    align-items: flex-start;
-  }
+  .detail-field { display: flex; gap: 12px; align-items: flex-start; }
   .detail-field-label {
-    font-size: 11px;
-    font-weight: 600;
-    color: var(--ink-faint);
-    text-transform: uppercase;
-    letter-spacing: 0.06em;
-    min-width: 72px;
-    padding-top: 1px;
+    font-size: 11px; font-weight: 600; color: var(--ink-faint);
+    text-transform: uppercase; letter-spacing: 0.06em; min-width: 72px; padding-top: 1px;
   }
   .detail-field-value {
-    font-size: 13px;
-    color: var(--ink);
-    flex: 1;
-    cursor: text;
-    border-radius: 3px;
-    padding: 1px 4px;
-    margin: -1px -4px;
-    transition: background 0.1s;
+    font-size: 13px; color: var(--ink); flex: 1;
+    border-radius: 3px; padding: 1px 4px; margin: -1px -4px; transition: background 0.1s;
   }
   .detail-field-value:hover { background: #ebebeb; }
-  .detail-field-value[contenteditable="true"] {
-    background: var(--white);
-    outline: 1px solid #aaa;
-    cursor: text;
-  }
+  .detail-field-value[contenteditable="true"] { background: var(--white); outline: 1px solid #aaa; }
   .must-field .detail-field-value {
-    background: var(--must-bg);
-    border: 1px solid var(--must-border);
-    border-radius: var(--radius);
-    padding: 4px 8px;
-    margin: 0;
-    font-size: 13px;
+    background: var(--must-bg); border: 1px solid var(--must-border);
+    border-radius: var(--radius); padding: 4px 8px; margin: 0;
   }
   .must-field .detail-field-value:hover { background: #fff4e0; }
+  .receives-field .detail-field-value { color: var(--ink-light); font-size: 12px; }
+  .edit-note { margin-top: 12px; font-size: 11px; color: var(--ink-faint); font-style: italic; }
 
-  .edit-note {
-    margin-top: 12px;
-    font-size: 11px;
-    color: var(--ink-faint);
-    font-style: italic;
-  }
-
-  /* ── Receives-from ── */
-  .receives-field .detail-field-value {
-    color: var(--ink-light);
-    font-size: 12px;
-  }
-
-  /* ── Full list tab ── */
+  /* ── Full list ── */
   .phase-group { margin-bottom: 36px; }
   .phase-group-label {
-    font-size: 12px;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.07em;
-    color: var(--white);
-    padding: 4px 10px;
-    border-radius: var(--radius);
-    display: inline-block;
-    margin-bottom: 12px;
+    font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.07em;
+    color: var(--white); padding: 4px 10px; border-radius: var(--radius);
+    display: inline-block; margin-bottom: 12px;
   }
   .phase-group-label.weekly { background: var(--weekly); }
   .phase-group-label.monthly { background: var(--monthly); }
 
-  /* ── Flow tab ── */
-  .flow-controls {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-    margin-bottom: 28px;
-  }
-  .flow-phase-btn {
-    padding: 8px 16px;
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    background: var(--white);
-    font-size: 13px;
-    cursor: pointer;
+  /* ── Flow ── */
+  .flow-controls { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 28px; }
+  .flow-stage-btn {
+    padding: 8px 16px; border: 1px solid var(--border); border-radius: var(--radius);
+    background: var(--white); font-size: 13px; cursor: pointer;
     transition: background 0.12s, border-color 0.12s, color 0.12s;
   }
-  .flow-phase-btn:hover { border-color: #aaa; }
-  .flow-phase-btn.active-weekly {
-    background: var(--weekly);
-    border-color: var(--weekly);
-    color: var(--white);
-  }
-  .flow-phase-btn.active-monthly {
-    background: var(--monthly);
-    border-color: var(--monthly);
-    color: var(--white);
-  }
+  .flow-stage-btn:hover { border-color: #aaa; }
+  .flow-stage-btn.active-weekly { background: var(--weekly); border-color: var(--weekly); color: var(--white); }
+  .flow-stage-btn.active-monthly { background: var(--monthly); border-color: var(--monthly); color: var(--white); }
 
-  .swimlane-container {
-    background: var(--white);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    overflow-x: auto;
-  }
+  /* Swimlane */
+  .swimlane-outer { background: var(--white); border: 1px solid var(--border); border-radius: var(--radius); overflow-x: auto; }
   .swimlane-header {
-    padding: 16px 20px 12px;
-    border-bottom: 1px solid var(--border);
-    font-size: 15px;
-    font-weight: 600;
-    display: flex;
-    align-items: center;
-    gap: 10px;
+    padding: 16px 20px 12px; border-bottom: 1px solid var(--border);
+    font-size: 15px; font-weight: 600; display: flex; align-items: center; gap: 10px;
+    position: sticky; left: 0;
   }
-  .swimlane-header .cycle-dot {
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
-    flex-shrink: 0;
-  }
-  .swimlane-header .cycle-dot.weekly { background: var(--weekly); }
-  .swimlane-header .cycle-dot.monthly { background: var(--monthly); }
+  .cycle-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+  .cycle-dot.weekly { background: var(--weekly); }
+  .cycle-dot.monthly { background: var(--monthly); }
 
-  .swimlane-grid {
-    display: grid;
-    min-width: max-content;
-  }
-  .swimlane-row {
-    display: contents;
-  }
+  .swimlane-inner { position: relative; min-width: max-content; }
+
+  .swimlane-grid { display: grid; grid-template-columns: 130px 1fr; }
+
   .swimlane-role-cell {
-    font-size: 12px;
-    font-weight: 600;
-    color: var(--ink-faint);
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    padding: 12px 16px;
-    background: #f8f8f8;
-    border-right: 1px solid var(--border);
-    border-bottom: 1px solid var(--border);
-    white-space: nowrap;
-    display: flex;
-    align-items: center;
+    font-size: 12px; font-weight: 600; color: var(--ink-faint);
+    text-transform: uppercase; letter-spacing: 0.05em;
+    padding: 14px 16px; background: #f8f8f8;
+    border-right: 1px solid var(--border); border-bottom: 1px solid var(--border);
+    white-space: nowrap; display: flex; align-items: center;
+    position: sticky; left: 0; z-index: 2;
   }
-  .swimlane-cells {
-    display: flex;
-    align-items: center;
-    padding: 10px 12px;
-    border-bottom: 1px solid var(--border);
-    gap: 8px;
-    flex-wrap: wrap;
+  .swimlane-activities-cell {
+    display: flex; align-items: center; padding: 14px 16px;
+    border-bottom: 1px solid var(--border); gap: 0;
+    min-height: 72px;
   }
-  .swimlane-row:last-child .swimlane-role-cell,
-  .swimlane-row:last-child .swimlane-cells {
-    border-bottom: none;
-  }
+  .swimlane-role-cell:last-of-type,
+  .swimlane-activities-cell:last-of-type { border-bottom: none; }
 
   .flow-box {
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    padding: 8px 12px;
-    font-size: 12px;
-    background: var(--white);
-    max-width: 200px;
-    cursor: pointer;
-    transition: border-color 0.1s;
+    border: 1px solid var(--border); border-radius: var(--radius);
+    padding: 8px 12px; font-size: 12px; background: var(--white);
+    width: 160px; flex-shrink: 0; cursor: pointer;
+    transition: border-color 0.1s, box-shadow 0.1s;
     position: relative;
   }
-  .flow-box:hover { border-color: #aaa; }
-  .flow-box .flow-seq {
-    font-size: 10px;
-    color: var(--ink-faint);
-    margin-bottom: 3px;
-  }
-  .flow-box .flow-label { font-size: 12px; line-height: 1.4; }
-  .flow-arrow {
-    color: var(--ink-faint);
-    font-size: 16px;
-    flex-shrink: 0;
-  }
+  .flow-box:hover { border-color: #999; }
+  .flow-box.highlighted { border-color: #1a3a5c; box-shadow: 0 0 0 2px rgba(26,58,92,0.15); }
+  .flow-box .flow-id { font-size: 10px; color: var(--ink-faint); margin-bottom: 3px; }
+  .flow-box .flow-label { font-size: 11px; line-height: 1.4; }
 
-  /* ── Empty states ── */
-  .empty {
-    padding: 32px;
-    text-align: center;
-    color: var(--ink-faint);
-    font-size: 13px;
+  /* Spacer between boxes in the same row */
+  .flow-box + .flow-box { margin-left: 48px; }
+
+  /* SVG arrows overlay */
+  .arrows-svg {
+    position: absolute; top: 0; left: 0;
+    pointer-events: none; overflow: visible;
   }
 
-  /* ── Animations ── */
-  @keyframes fadeIn { from { opacity: 0; transform: translateY(-4px); } to { opacity: 1; transform: translateY(0); } }
+  .flow-detail-card {
+    background: #f8f8f8; border: 1px solid var(--border); border-radius: var(--radius);
+    padding: 16px 20px; margin-top: 16px; animation: fadeIn 0.12s ease;
+  }
 
-  /* ── Responsive ── */
+  .swimlane-hint {
+    font-size: 12px; color: var(--ink-faint); padding: 10px 20px;
+    border-top: 1px solid var(--border); position: sticky; left: 0;
+  }
+
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(-4px); } to { opacity: 1; transform: none; } }
+
   @media (max-width: 640px) {
     main { padding: 20px 16px; }
     header { padding: 16px; }
     nav { padding: 0 16px; }
-    nav button { padding: 10px 14px; font-size: 13px; }
+    nav button { padding: 10px 12px; font-size: 13px; }
   }
 </style>
 </head>
@@ -468,7 +279,7 @@
 
 <header>
   <h1>Gable Homes — BTZL workflow</h1>
-  <span>40 activities across 7 phases</span>
+  <span id="header-count"></span>
 </header>
 
 <nav>
@@ -478,63 +289,40 @@
 </nav>
 
 <main>
-
-  <!-- ── EXPLORE ── -->
   <div id="view-explore" class="view active">
-
-    <div class="phase-map">
-      <!-- Weekly track -->
-      <div class="cycle-track">
-        <div class="cycle-header">
-          <span class="cycle-badge weekly">Weekly cycle</span>
-        </div>
-        <div class="phase-nodes" id="weekly-phases">
-          <div class="bookend-node">Phase zero handoff</div>
-        </div>
-      </div>
-
-      <!-- Monthly track -->
-      <div class="cycle-track">
-        <div class="cycle-header">
-          <span class="cycle-badge monthly">Monthly cycle</span>
-        </div>
-        <div class="phase-nodes" id="monthly-phases">
-        </div>
-      </div>
-    </div>
-
-    <div id="phase-detail-panel"></div>
-
-    <!-- People section -->
+    <div id="explore-tracks"></div>
+    <div id="stage-detail-panel"></div>
     <div class="people-section">
       <div class="section-label">People</div>
       <div class="people-row" id="people-row"></div>
     </div>
-
     <div id="person-detail-panel"></div>
   </div>
 
-  <!-- ── FULL LIST ── -->
   <div id="view-fulllist" class="view">
     <div id="fulllist-content"></div>
   </div>
 
-  <!-- ── FLOW ── -->
   <div id="view-flow" class="view">
-    <div class="section-label" style="margin-bottom:16px">Select a phase to see the swimlane</div>
+    <div class="section-label" style="margin-bottom:16px">Select a stage</div>
     <div class="flow-controls" id="flow-controls"></div>
     <div id="flow-panel"></div>
   </div>
-
 </main>
 
 <script>
-// ── Data ──────────────────────────────────────────────────────────────────
-let DATA = [];
+// ── Config ────────────────────────────────────────────────────────────────
+const STAGES = [
+  { cycle: 'Weekly',  name: 'Intake' },
+  { cycle: 'Weekly',  name: 'Processing' },
+  { cycle: 'Weekly',  name: 'Weekly view' },
+  { cycle: 'Monthly', name: 'Financial Analysis Package Assembly' },
+  { cycle: 'Monthly', name: 'Reporting and Analysis' },
+];
 
 const PEOPLE_META = {
-  Fernando:  { role: 'Owner and sponsor', note: 'Minimal touchpoints by design. Signs off on draw packages, responds to escalations, aligns on monthly outlook.' },
-  Brian:     { role: 'Field construction lead', note: 'Confirms field documentation and weekly percent complete. Front line for subcontractor and materials on site.' },
+  Fernando:  { role: 'Owner and sponsor', note: 'Minimal touchpoints by design. Signs off, responds to escalations, aligns on monthly outlook.' },
+  Brian:     { role: 'Field construction lead', note: 'Confirms field documentation and weekly percent complete. Front line for subcontractors and materials on site.' },
   Javier:    { role: 'Field coordinator and estimating', note: 'Handles purchases and online orders. Sends delivery confirmations and change order notices.' },
   Andreina:  { role: 'Administrative', note: 'Labor payment documents and bank movements only. Not responsible for chasing.' },
   Alexandra: { role: 'Finishes and FF&E', note: 'Online order and delivery confirmations for finishes and FF&E.' },
@@ -542,175 +330,67 @@ const PEOPLE_META = {
   Laura:     { role: 'BTZL', note: 'Classification, confidence levels, SOV updates, draw package assembly, monthly reporting.' },
   Alejandro: { role: 'BTZL CFO', note: 'Change order escalation, weekly cash flow snapshot, monthly portfolio review and analysis.' },
 };
-
-const WEEKLY_PHASES = ['Document Collection', 'Consolidation', 'BTZL Processing', 'Confirmation Loop'];
-const MONTHLY_PHASES = ['Draw Package Assembly', 'Review and Submission', 'Reporting and Analysis'];
+const CANONICAL_ORDER = ['Fernando', 'Brian', 'Javier', 'Andreina', 'Alexandra', 'Claudia', 'Laura', 'Alejandro'];
 
 // ── State ─────────────────────────────────────────────────────────────────
-let activeTab = 'explore';
-let activePhase = null;       // { cycle, name }
+let DATA = [];
+let activeStage = null;
 let activePerson = null;
-let expandedActivity = null;  // id string "phase|cycle|seq"
-let activeFlowPhase = null;
+let activeFlowStage = null;
 
-// ── Init ──────────────────────────────────────────────────────────────────
+// ── Bootstrap ─────────────────────────────────────────────────────────────
 fetch('workflow.json')
   .then(r => r.json())
   .then(data => {
     DATA = data;
-    buildAll();
+    document.getElementById('header-count').textContent = `${DATA.length} activities across 5 stages`;
+    buildExplore();
+    buildFullList();
+    buildFlowControls();
   });
-
-function buildAll() {
-  buildExplore();
-  buildFullList();
-  buildFlowControls();
-}
 
 // ── Tabs ──────────────────────────────────────────────────────────────────
 document.querySelectorAll('nav button').forEach(btn => {
   btn.addEventListener('click', () => {
-    activeTab = btn.dataset.tab;
     document.querySelectorAll('nav button').forEach(b => b.classList.remove('active'));
     btn.classList.add('active');
     document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
-    document.getElementById('view-' + activeTab).classList.add('active');
+    document.getElementById('view-' + btn.dataset.tab).classList.add('active');
   });
 });
 
-// ── Explore ───────────────────────────────────────────────────────────────
-function buildExplore() {
-  buildPhaseNodes('weekly-phases', 'Weekly', WEEKLY_PHASES);
-  buildPhaseNodes('monthly-phases', 'Monthly', MONTHLY_PHASES);
-  buildPeopleRow();
+// ── Helpers ───────────────────────────────────────────────────────────────
+function whoList(act) {
+  return act['Who does it'].split(',').map(s => s.trim());
 }
 
-function buildPhaseNodes(containerId, cycle, phases) {
-  const container = document.getElementById(containerId);
-  // Keep bookend for weekly
-  const existingBookend = container.querySelector('.bookend-node');
-
-  phases.forEach(name => {
-    const count = DATA.filter(r => r.Cycle === name).length;
-    const btn = document.createElement('button');
-    btn.className = 'phase-node';
-    btn.dataset.cycle = cycle;
-    btn.dataset.phase = name;
-    btn.innerHTML = `${name} <span class="count">${count}</span>`;
-    btn.addEventListener('click', () => togglePhase(cycle, name, btn));
-    container.appendChild(btn);
-  });
-
-  // Monthly bookend goes after the nodes
-  if (cycle === 'Monthly') {
-    const be = document.createElement('div');
-    be.className = 'bookend-node';
-    be.textContent = 'Project close out handoff';
-    container.appendChild(be);
-  } else if (cycle === 'Weekly') {
-    // Move existing bookend to front (it's already there)
-  }
+function parseRefIds(receivesFrom) {
+  return (receivesFrom.match(/\d+\.\d+\.\d+/g) || []);
 }
 
-function togglePhase(cycle, name, btn) {
-  // Deselect person
-  activePerson = null;
-  document.querySelectorAll('.person-chip').forEach(c => c.classList.remove('active'));
-  document.getElementById('person-detail-panel').innerHTML = '';
-
-  if (activePhase && activePhase.cycle === cycle && activePhase.name === name) {
-    // Deselect
-    activePhase = null;
-    btn.classList.remove('active-weekly', 'active-monthly');
-    document.getElementById('phase-detail-panel').innerHTML = '';
-    return;
-  }
-
-  // Deselect all phase nodes
-  document.querySelectorAll('.phase-node').forEach(n => n.classList.remove('active-weekly', 'active-monthly'));
-
-  activePhase = { cycle, name };
-  btn.classList.add(cycle === 'Weekly' ? 'active-weekly' : 'active-monthly');
-  expandedActivity = null;
-  renderPhaseDetail();
-}
-
-function renderPhaseDetail() {
-  const panel = document.getElementById('phase-detail-panel');
-  if (!activePhase) { panel.innerHTML = ''; return; }
-
-  const { cycle, name } = activePhase;
-  const activities = DATA.filter(r => r.Cycle === name).sort((a, b) => a.Sequence - b.Sequence);
-  const cycleClass = cycle.toLowerCase();
-
-  panel.innerHTML = `
-    <div class="phase-detail">
-      <h3>
-        ${name}
-        <span class="phase-tag ${cycleClass}">${cycle}</span>
-      </h3>
-      <ul class="activity-list" id="phase-activity-list"></ul>
-    </div>
-  `;
-
-  const list = document.getElementById('phase-activity-list');
-  activities.forEach(act => {
-    const id = `${act.Phase}|${act.Cycle}|${act.Sequence}`;
-    const li = document.createElement('li');
-    li.className = 'activity-item';
-    li.dataset.id = id;
-    li.innerHTML = activityRowHTML(act, id);
-    list.appendChild(li);
-    li.querySelector('.activity-item-row').addEventListener('click', () => toggleActivity(id, act, li));
-  });
-}
-
-function activityRowHTML(act, id) {
-  return `
-    <div class="activity-item-row">
-      <span class="activity-num">${act.Sequence}</span>
-      <span class="activity-title">${act.Activity}</span>
-      <span class="activity-who">${act['Who does it']}</span>
-    </div>
-  `;
-}
-
-function toggleActivity(id, act, li) {
-  const existing = li.querySelector('.detail-card');
-  if (existing) {
-    existing.remove();
-    if (expandedActivity === id) { expandedActivity = null; return; }
-  }
-
-  // Close any other open card
-  document.querySelectorAll('.detail-card').forEach(c => c.remove());
-
-  expandedActivity = id;
-  const card = buildDetailCard(act);
-  li.appendChild(card);
-}
+function cycleClass(cycle) { return cycle.toLowerCase().replace(/\s+/g, '-'); }
 
 function buildDetailCard(act) {
   const div = document.createElement('div');
   div.className = 'detail-card';
   div.innerHTML = `
-    <div class="detail-card-header">${act.Sequence}. ${act.Activity}</div>
+    <div class="detail-card-header">${act.ID} — ${act.Activity}</div>
     <div class="detail-fields">
       <div class="detail-field">
         <span class="detail-field-label">Who</span>
-        <span class="detail-field-value" data-field="who" title="Click to edit (illustrative)">${act['Who does it']}</span>
+        <span class="detail-field-value" data-editable title="Click to edit (illustrative)">${act['Who does it']}</span>
       </div>
       <div class="detail-field">
         <span class="detail-field-label">Frequency</span>
-        <span class="detail-field-value" data-field="freq" title="Click to edit (illustrative)">${act.Frequency}</span>
+        <span class="detail-field-value" data-editable title="Click to edit (illustrative)">${act.Frequency}</span>
       </div>
       <div class="detail-field">
         <span class="detail-field-label">Channel</span>
-        <span class="detail-field-value" data-field="channel" title="Click to edit (illustrative)">${act.Channel}</span>
+        <span class="detail-field-value" data-editable title="Click to edit (illustrative)">${act.Channel}</span>
       </div>
       <div class="detail-field must-field">
         <span class="detail-field-label">Must</span>
-        <span class="detail-field-value" data-field="must" title="Click to edit (illustrative)">${act.Must}</span>
+        <span class="detail-field-value" data-editable title="Click to edit (illustrative)">${act.Must}</span>
       </div>
       <div class="detail-field receives-field">
         <span class="detail-field-label">From</span>
@@ -719,24 +399,124 @@ function buildDetailCard(act) {
     </div>
     <p class="edit-note">Fields are editable here as a demonstration — changes are not saved.</p>
   `;
-
-  // Make fields editable on click
-  div.querySelectorAll('[data-field]').forEach(el => {
-    el.addEventListener('click', (e) => {
-      e.stopPropagation();
-      el.contentEditable = 'true';
-      el.focus();
-    });
+  div.querySelectorAll('[data-editable]').forEach(el => {
+    el.addEventListener('click', e => { e.stopPropagation(); el.contentEditable = 'true'; el.focus(); });
     el.addEventListener('blur', () => { el.contentEditable = 'false'; });
   });
-
   return div;
+}
+
+function toggleInlineActivity(id, act, li) {
+  const existing = li.querySelector('.detail-card');
+  if (existing) { existing.remove(); return; }
+  document.querySelectorAll('.detail-card').forEach(c => c.remove());
+  li.appendChild(buildDetailCard(act));
+}
+
+function activityLi(act, contextLabel) {
+  const li = document.createElement('li');
+  li.className = 'activity-item';
+  const row = document.createElement('div');
+  row.className = 'activity-item-row';
+  row.innerHTML = `
+    <span class="activity-id">${act.ID}</span>
+    <span class="activity-title">${act.Activity}</span>
+    <span class="activity-who">${contextLabel || act['Who does it']}</span>
+  `;
+  li.appendChild(row);
+  row.addEventListener('click', () => toggleInlineActivity(act.ID, act, li));
+  return li;
+}
+
+// ── Explore ───────────────────────────────────────────────────────────────
+function buildExplore() {
+  const container = document.getElementById('explore-tracks');
+
+  ['Weekly', 'Monthly'].forEach(cycle => {
+    const track = document.createElement('div');
+    track.className = 'cycle-track';
+
+    const header = document.createElement('div');
+    header.className = 'cycle-header';
+    header.innerHTML = `<span class="cycle-badge ${cycleClass(cycle)}">${cycle} cycle</span>`;
+    track.appendChild(header);
+
+    const nodes = document.createElement('div');
+    nodes.className = 'stage-nodes';
+
+    if (cycle === 'Weekly') {
+      const be = document.createElement('div');
+      be.className = 'bookend-node';
+      be.textContent = 'Phase zero handoff';
+      nodes.appendChild(be);
+    }
+
+    STAGES.filter(s => s.cycle === cycle).forEach(({ name }) => {
+      const count = DATA.filter(r => r.Stage === name).length;
+      const btn = document.createElement('button');
+      btn.className = 'stage-node';
+      btn.dataset.stage = name;
+      btn.dataset.cycle = cycle;
+      btn.innerHTML = `${name} <span class="count">${count}</span>`;
+      btn.addEventListener('click', () => toggleStage(cycle, name, btn));
+      nodes.appendChild(btn);
+    });
+
+    if (cycle === 'Monthly') {
+      const be = document.createElement('div');
+      be.className = 'bookend-node';
+      be.textContent = 'Project close out handoff';
+      nodes.appendChild(be);
+    }
+
+    track.appendChild(nodes);
+    container.appendChild(track);
+  });
+
+  buildPeopleRow();
+}
+
+function toggleStage(cycle, name, btn) {
+  // Clear person selection
+  activePerson = null;
+  document.querySelectorAll('.person-chip').forEach(c => c.classList.remove('active'));
+  document.getElementById('person-detail-panel').innerHTML = '';
+
+  const same = activeStage && activeStage.name === name;
+  document.querySelectorAll('.stage-node').forEach(n => n.classList.remove('active-weekly', 'active-monthly'));
+  document.querySelectorAll('.detail-card').forEach(c => c.remove());
+
+  if (same) {
+    activeStage = null;
+    document.getElementById('stage-detail-panel').innerHTML = '';
+    return;
+  }
+
+  activeStage = { cycle, name };
+  btn.classList.add(`active-${cycleClass(cycle)}`);
+  renderStageDetail(cycle, name);
+}
+
+function renderStageDetail(cycle, name) {
+  const panel = document.getElementById('stage-detail-panel');
+  const activities = DATA.filter(r => r.Stage === name).sort((a, b) => a.Sequence - b.Sequence);
+  const cc = cycleClass(cycle);
+
+  panel.innerHTML = `
+    <div class="stage-detail">
+      <h3>${name} <span class="stage-tag ${cc}">${cycle}</span></h3>
+      <ul class="activity-list" id="stage-act-list"></ul>
+    </div>
+  `;
+
+  const ul = document.getElementById('stage-act-list');
+  activities.forEach(act => ul.appendChild(activityLi(act)));
 }
 
 // ── People ────────────────────────────────────────────────────────────────
 function buildPeopleRow() {
   const row = document.getElementById('people-row');
-  Object.keys(PEOPLE_META).forEach(name => {
+  CANONICAL_ORDER.forEach(name => {
     const chip = document.createElement('button');
     chip.className = 'person-chip';
     chip.textContent = name;
@@ -746,21 +526,17 @@ function buildPeopleRow() {
 }
 
 function togglePerson(name, chip) {
-  // Deselect phase
-  activePhase = null;
-  document.querySelectorAll('.phase-node').forEach(n => n.classList.remove('active-weekly', 'active-monthly'));
-  document.getElementById('phase-detail-panel').innerHTML = '';
+  activeStage = null;
+  document.querySelectorAll('.stage-node').forEach(n => n.classList.remove('active-weekly', 'active-monthly'));
+  document.getElementById('stage-detail-panel').innerHTML = '';
   document.querySelectorAll('.detail-card').forEach(c => c.remove());
 
-  if (activePerson === name) {
-    activePerson = null;
-    chip.classList.remove('active');
-    document.getElementById('person-detail-panel').innerHTML = '';
-    return;
-  }
-
-  activePerson = name;
+  const same = activePerson === name;
+  activePerson = same ? null : name;
   document.querySelectorAll('.person-chip').forEach(c => c.classList.remove('active'));
+
+  if (same) { document.getElementById('person-detail-panel').innerHTML = ''; return; }
+
   chip.classList.add('active');
   renderPersonDetail(name);
 }
@@ -768,192 +544,236 @@ function togglePerson(name, chip) {
 function renderPersonDetail(name) {
   const panel = document.getElementById('person-detail-panel');
   const meta = PEOPLE_META[name];
-  const activities = DATA.filter(r => r['Who does it'].split(',').map(s => s.trim()).includes(name))
-                         .sort((a, b) => {
-                           const po = ['Weekly', 'Monthly'];
-                           if (po.indexOf(a.Phase) !== po.indexOf(b.Phase)) return po.indexOf(a.Phase) - po.indexOf(b.Phase);
-                           return a.Sequence - b.Sequence;
-                         });
+  const activities = DATA.filter(r => whoList(r).includes(name))
+    .sort((a, b) => a.ID.localeCompare(b.ID, undefined, { numeric: true }));
 
   panel.innerHTML = `
     <div class="person-detail">
       <h3>${name}</h3>
       <p class="person-role">${meta.role} — ${meta.note}</p>
       <h4>${activities.length} activit${activities.length === 1 ? 'y' : 'ies'}</h4>
-      <ul class="activity-list" id="person-activity-list"></ul>
+      <ul class="activity-list" id="person-act-list"></ul>
     </div>
   `;
 
-  const list = document.getElementById('person-activity-list');
-  activities.forEach(act => {
-    const id = `person|${act.Phase}|${act.Cycle}|${act.Sequence}`;
-    const li = document.createElement('li');
-    li.className = 'activity-item';
-    li.dataset.id = id;
-    const cycleLabel = `${act.Phase} / ${act.Cycle}`;
-    li.innerHTML = `
-      <div class="activity-item-row">
-        <span class="activity-num">${act.Sequence}</span>
-        <span class="activity-title">${act.Activity}</span>
-        <span class="activity-who" style="color:var(--ink-faint)">${cycleLabel}</span>
-      </div>
-    `;
-    list.appendChild(li);
-    li.querySelector('.activity-item-row').addEventListener('click', () => toggleActivity(id, act, li));
-  });
+  const ul = document.getElementById('person-act-list');
+  activities.forEach(act => ul.appendChild(activityLi(act, act.Stage)));
 }
 
 // ── Full list ─────────────────────────────────────────────────────────────
 function buildFullList() {
   const container = document.getElementById('fulllist-content');
-  const groups = [
-    { phase: 'Weekly', cycles: WEEKLY_PHASES },
-    { phase: 'Monthly', cycles: MONTHLY_PHASES },
-  ];
+  STAGES.forEach(({ cycle, name }) => {
+    const activities = DATA.filter(r => r.Stage === name).sort((a, b) => a.Sequence - b.Sequence);
+    if (!activities.length) return;
+    const cc = cycleClass(cycle);
 
-  groups.forEach(({ phase, cycles }) => {
-    cycles.forEach(cycle => {
-      const activities = DATA.filter(r => r.Phase === phase && r.Cycle === cycle)
-                             .sort((a, b) => a.Sequence - b.Sequence);
-      if (!activities.length) return;
+    const section = document.createElement('div');
+    section.className = 'phase-group';
+    section.innerHTML = `<div class="phase-group-label ${cc}">${cycle} — ${name}</div>`;
 
-      const section = document.createElement('div');
-      section.className = 'phase-group';
-      section.innerHTML = `<div class="phase-group-label ${phase.toLowerCase()}">${phase} — ${cycle}</div>`;
-
-      const ul = document.createElement('ul');
-      ul.className = 'activity-list';
-      activities.forEach(act => {
-        const id = `list|${act.Phase}|${act.Cycle}|${act.Sequence}`;
-        const li = document.createElement('li');
-        li.className = 'activity-item';
-        li.innerHTML = `
-          <div class="activity-item-row">
-            <span class="activity-num">${act.Sequence}</span>
-            <span class="activity-title">${act.Activity}</span>
-            <span class="activity-who">${act['Who does it']}</span>
-          </div>
-        `;
-        ul.appendChild(li);
-        li.querySelector('.activity-item-row').addEventListener('click', () => toggleActivity(id, act, li));
-      });
-
-      section.appendChild(ul);
-      container.appendChild(section);
-    });
+    const ul = document.createElement('ul');
+    ul.className = 'activity-list';
+    activities.forEach(act => ul.appendChild(activityLi(act)));
+    section.appendChild(ul);
+    container.appendChild(section);
   });
 }
 
 // ── Flow ──────────────────────────────────────────────────────────────────
 function buildFlowControls() {
   const container = document.getElementById('flow-controls');
-  const allPhases = [
-    ...WEEKLY_PHASES.map(p => ({ cycle: 'Weekly', name: p })),
-    ...MONTHLY_PHASES.map(p => ({ cycle: 'Monthly', name: p })),
-  ];
-
-  allPhases.forEach(({ cycle, name }) => {
+  STAGES.forEach(({ cycle, name }) => {
     const btn = document.createElement('button');
-    btn.className = 'flow-phase-btn';
+    btn.className = 'flow-stage-btn';
     btn.textContent = name;
-    btn.dataset.cycle = cycle;
-    btn.dataset.phase = name;
     btn.addEventListener('click', () => {
-      document.querySelectorAll('.flow-phase-btn').forEach(b => b.classList.remove('active-weekly', 'active-monthly'));
-      btn.classList.add(cycle === 'Weekly' ? 'active-weekly' : 'active-monthly');
-      activeFlowPhase = { cycle, name };
+      document.querySelectorAll('.flow-stage-btn').forEach(b => b.classList.remove('active-weekly', 'active-monthly'));
+      btn.classList.add(`active-${cycleClass(cycle)}`);
+      activeFlowStage = { cycle, name };
       renderFlow(cycle, name);
     });
     container.appendChild(btn);
   });
 }
 
-function renderFlow(cycle, phaseName) {
+function renderFlow(cycle, stageName) {
   const panel = document.getElementById('flow-panel');
-  const activities = DATA.filter(r => r.Cycle === phaseName).sort((a, b) => a.Sequence - b.Sequence);
+  panel.innerHTML = '';
 
-  // Collect roles involved
+  const activities = DATA.filter(r => r.Stage === stageName).sort((a, b) => a.Sequence - b.Sequence);
+  const stageIds = new Set(activities.map(a => a.ID));
+
+  // Roles involved, in canonical order
   const rolesSet = new Set();
-  activities.forEach(act => {
-    act['Who does it'].split(',').map(s => s.trim()).forEach(r => rolesSet.add(r));
-  });
-  // Maintain canonical order
-  const canonicalOrder = ['Fernando', 'Brian', 'Javier', 'Andreina', 'Alexandra', 'Claudia', 'Laura', 'Alejandro'];
-  const roles = canonicalOrder.filter(r => rolesSet.has(r));
+  activities.forEach(act => whoList(act).forEach(r => rolesSet.add(r)));
+  const roles = CANONICAL_ORDER.filter(r => rolesSet.has(r));
 
-  const cycleClass = cycle.toLowerCase();
+  const cc = cycleClass(cycle);
 
-  panel.innerHTML = `
-    <div class="swimlane-container">
-      <div class="swimlane-header">
-        <span class="cycle-dot ${cycleClass}"></span>
-        ${phaseName}
-      </div>
-      <div class="swimlane-grid" id="swimlane-grid" style="grid-template-columns: 140px 1fr;"></div>
-    </div>
-  `;
+  const outer = document.createElement('div');
+  outer.className = 'swimlane-outer';
 
-  const grid = document.getElementById('swimlane-grid');
+  const hdr = document.createElement('div');
+  hdr.className = 'swimlane-header';
+  hdr.innerHTML = `<span class="cycle-dot ${cc}"></span>${stageName}`;
+  outer.appendChild(hdr);
+
+  const inner = document.createElement('div');
+  inner.className = 'swimlane-inner';
+  inner.id = 'flow-swimlane-inner';
+
+  const grid = document.createElement('div');
+  grid.className = 'swimlane-grid';
+
+  // Build rows; track box elements for arrow drawing
+  const boxMap = {}; // id -> DOM element
 
   roles.forEach(role => {
-    const roleActivities = activities.filter(act =>
-      act['Who does it'].split(',').map(s => s.trim()).includes(role)
-    );
+    const roleActs = activities.filter(a => whoList(a).includes(role));
 
     const roleCell = document.createElement('div');
     roleCell.className = 'swimlane-role-cell';
     roleCell.textContent = role;
 
-    const activitiesCell = document.createElement('div');
-    activitiesCell.className = 'swimlane-cells';
+    const actsCell = document.createElement('div');
+    actsCell.className = 'swimlane-activities-cell';
+    actsCell.dataset.role = role;
 
-    roleActivities.forEach((act, i) => {
-      // Add arrow between boxes if not first
-      if (i > 0) {
-        const arrow = document.createElement('span');
-        arrow.className = 'flow-arrow';
-        arrow.textContent = '→';
-        activitiesCell.appendChild(arrow);
-      }
-
+    roleActs.forEach(act => {
       const box = document.createElement('div');
       box.className = 'flow-box';
-      box.innerHTML = `
-        <div class="flow-seq">Activity ${act.Sequence}</div>
-        <div class="flow-label">${act.Activity}</div>
-      `;
-
-      // Tooltip / click to expand detail
-      const id = `flow|${act.Phase}|${act.Cycle}|${act.Sequence}`;
-      box.addEventListener('click', (e) => {
+      box.dataset.actId = act.ID;
+      box.innerHTML = `<div class="flow-id">${act.ID}</div><div class="flow-label">${act.Activity}</div>`;
+      box.addEventListener('click', e => {
         e.stopPropagation();
-        // Remove existing open card
-        const existing = document.querySelector('.flow-detail-open');
-        if (existing) existing.remove();
-        if (box.dataset.open === 'true') { box.dataset.open = 'false'; return; }
-
-        document.querySelectorAll('.flow-box').forEach(b => b.dataset.open = 'false');
-        box.dataset.open = 'true';
-
+        // Remove old flow detail card
+        const existing = document.querySelector('.flow-detail-card');
+        if (existing) {
+          if (existing.previousSibling === box) { existing.remove(); return; }
+          existing.remove();
+        }
         const card = buildDetailCard(act);
-        card.classList.add('flow-detail-open');
-        card.style.marginTop = '12px';
+        card.classList.add('flow-detail-card');
         box.after(card);
+        // Highlight referenced source boxes
+        document.querySelectorAll('.flow-box').forEach(b => b.classList.remove('highlighted'));
+        parseRefIds(act['Receives from']).forEach(refId => {
+          const srcBox = grid.querySelector(`[data-act-id="${refId}"]`);
+          if (srcBox) srcBox.classList.add('highlighted');
+        });
       });
-
-      activitiesCell.appendChild(box);
+      actsCell.appendChild(box);
+      boxMap[act.ID] = box;
     });
 
     grid.appendChild(roleCell);
-    grid.appendChild(activitiesCell);
+    grid.appendChild(actsCell);
   });
 
-  // Show receives-from arrows hint
-  const hint = document.createElement('p');
-  hint.style.cssText = 'font-size:12px;color:var(--ink-faint);padding:12px 20px;border-top:1px solid var(--border)';
-  hint.textContent = 'Arrows show sequential order within each role. Click any activity to see full details.';
-  panel.querySelector('.swimlane-container').appendChild(hint);
+  inner.appendChild(grid);
+
+  // SVG overlay — drawn after layout
+  const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+  svg.classList.add('arrows-svg');
+  svg.id = 'flow-arrows-svg';
+  // Add arrowhead marker
+  svg.innerHTML = `
+    <defs>
+      <marker id="ah" markerWidth="7" markerHeight="5" refX="6" refY="2.5" orient="auto">
+        <polygon points="0 0, 7 2.5, 0 5" fill="#bbb"/>
+      </marker>
+    </defs>
+  `;
+  inner.appendChild(svg);
+
+  outer.appendChild(inner);
+
+  const hint = document.createElement('div');
+  hint.className = 'swimlane-hint';
+  hint.textContent = 'Arrows show handoffs defined in Receives from. Click any activity for details. Cross-row arrows indicate handoffs between people.';
+  outer.appendChild(hint);
+
+  panel.appendChild(outer);
+
+  // Draw arrows after paint
+  requestAnimationFrame(() => {
+    requestAnimationFrame(() => {
+      drawArrows(activities, stageIds, boxMap, svg, inner);
+    });
+  });
 }
+
+function drawArrows(activities, stageIds, boxMap, svg, container) {
+  const cr = container.getBoundingClientRect();
+
+  function relRect(el) {
+    const r = el.getBoundingClientRect();
+    return {
+      left:   r.left   - cr.left + container.scrollLeft,
+      top:    r.top    - cr.top  + container.scrollTop,
+      right:  r.right  - cr.left + container.scrollLeft,
+      bottom: r.bottom - cr.top  + container.scrollTop,
+      width:  r.width,
+      height: r.height,
+    };
+  }
+
+  // Size the SVG to match content
+  svg.setAttribute('width',  container.scrollWidth);
+  svg.setAttribute('height', container.scrollHeight);
+
+  activities.forEach(act => {
+    const srcIds = parseRefIds(act['Receives from']).filter(id => stageIds.has(id));
+    if (!srcIds.length) return;
+
+    const targetBox = boxMap[act.ID];
+    if (!targetBox) return;
+    const tr = relRect(targetBox);
+
+    srcIds.forEach(srcId => {
+      const srcBox = boxMap[srcId];
+      if (!srcBox) return;
+      const sr = relRect(srcBox);
+
+      // Source: right-center of source box
+      const x1 = sr.right;
+      const y1 = sr.top + sr.height / 2;
+      // Target: left-center of target box
+      const x2 = tr.left;
+      const y2 = tr.top + tr.height / 2;
+
+      const sameRow = Math.abs(y1 - y2) < 10;
+      let d;
+      if (sameRow) {
+        // Straight horizontal with slight curve
+        const mx = (x1 + x2) / 2;
+        d = `M ${x1} ${y1} C ${mx} ${y1} ${mx} ${y2} ${x2} ${y2}`;
+      } else {
+        // Bezier that arcs cleanly across rows
+        const dx = Math.abs(x2 - x1);
+        const cp = Math.max(dx * 0.5, 60);
+        d = `M ${x1} ${y1} C ${x1 + cp} ${y1} ${x2 - cp} ${y2} ${x2} ${y2}`;
+      }
+
+      const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+      path.setAttribute('d', d);
+      path.setAttribute('stroke', '#bbb');
+      path.setAttribute('stroke-width', '1.5');
+      path.setAttribute('fill', 'none');
+      path.setAttribute('marker-end', 'url(#ah)');
+      svg.appendChild(path);
+    });
+  });
+}
+
+// Close flow detail card when clicking outside
+document.addEventListener('click', e => {
+  if (!e.target.closest('.flow-box') && !e.target.closest('.flow-detail-card')) {
+    document.querySelector('.flow-detail-card')?.remove();
+    document.querySelectorAll('.flow-box').forEach(b => b.classList.remove('highlighted'));
+  }
+});
 </script>
 </body>
 </html>

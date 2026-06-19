@@ -1,7 +1,8 @@
 [
   {
-    "Phase": "Weekly",
-    "Cycle": "Document Collection",
+    "ID": "1.1.1",
+    "Cycle": "Weekly",
+    "Stage": "Intake",
     "Sequence": 1,
     "Activity": "Send job-related receipts and card purchases from the week",
     "Frequency": "In the moment, daily",
@@ -11,8 +12,9 @@
     "Receives from": "Field, originates with purchase"
   },
   {
-    "Phase": "Weekly",
-    "Cycle": "Document Collection",
+    "ID": "1.1.2",
+    "Cycle": "Weekly",
+    "Stage": "Intake",
     "Sequence": 2,
     "Activity": "Forward online order confirmation at moment of purchase",
     "Frequency": "In the moment",
@@ -22,19 +24,21 @@
     "Receives from": "Field, originates with online order"
   },
   {
-    "Phase": "Weekly",
-    "Cycle": "Document Collection",
+    "ID": "1.1.3",
+    "Cycle": "Weekly",
+    "Stage": "Intake",
     "Sequence": 3,
     "Activity": "Forward delivery confirmation when order arrives",
     "Frequency": "In the moment",
     "Channel": "Email forward to Claudia",
     "Must": "Project must be identified",
     "Who does it": "Javier, Alexandra",
-    "Receives from": "Activity 2, triggered when the ordered item arrives"
+    "Receives from": "1.1.2, triggered when the ordered item arrives"
   },
   {
-    "Phase": "Weekly",
-    "Cycle": "Document Collection",
+    "ID": "1.1.4",
+    "Cycle": "Weekly",
+    "Stage": "Intake",
     "Sequence": 4,
     "Activity": "Send delivery confirmations and field receipts when materials arrive on site",
     "Frequency": "In the moment, daily",
@@ -44,8 +48,9 @@
     "Receives from": "Field, originates with delivery on site"
   },
   {
-    "Phase": "Weekly",
-    "Cycle": "Document Collection",
+    "ID": "1.1.5",
+    "Cycle": "Weekly",
+    "Stage": "Intake",
     "Sequence": 5,
     "Activity": "Send subcontractor work completion confirmation",
     "Frequency": "In the moment, when sub leaves site",
@@ -55,8 +60,9 @@
     "Receives from": "Field, originates when sub finishes work"
   },
   {
-    "Phase": "Weekly",
-    "Cycle": "Document Collection",
+    "ID": "1.1.6",
+    "Cycle": "Weekly",
+    "Stage": "Intake",
     "Sequence": 6,
     "Activity": "Send document used to process labor payments for the week",
     "Frequency": "Weekly, Friday",
@@ -66,8 +72,9 @@
     "Receives from": "Field, Andreina's own payment process"
   },
   {
-    "Phase": "Weekly",
-    "Cycle": "Document Collection",
+    "ID": "1.1.7",
+    "Cycle": "Weekly",
+    "Stage": "Intake",
     "Sequence": 7,
     "Activity": "Send bank and credit card movements for the week",
     "Frequency": "Weekly, Friday",
@@ -77,8 +84,9 @@
     "Receives from": "Field, Andreina's own bank review, activated by Fernando's direct request"
   },
   {
-    "Phase": "Weekly",
-    "Cycle": "Document Collection",
+    "ID": "1.1.8",
+    "Cycle": "Weekly",
+    "Stage": "Intake",
     "Sequence": 8,
     "Activity": "Send any bank or lender communications received",
     "Frequency": "In the moment",
@@ -88,8 +96,9 @@
     "Receives from": "Field, originates with bank contact"
   },
   {
-    "Phase": "Weekly",
-    "Cycle": "Document Collection",
+    "ID": "1.1.9",
+    "Cycle": "Weekly",
+    "Stage": "Intake",
     "Sequence": 9,
     "Activity": "Send any new subcontract agreements or change orders agreed",
     "Frequency": "In the moment",
@@ -99,8 +108,9 @@
     "Receives from": "Field, originates when agreement is made"
   },
   {
-    "Phase": "Weekly",
-    "Cycle": "Document Collection",
+    "ID": "1.1.10",
+    "Cycle": "Weekly",
+    "Stage": "Intake",
     "Sequence": 10,
     "Activity": "Send confirmation of any investor or private lender funds received",
     "Frequency": "In the moment",
@@ -110,333 +120,363 @@
     "Receives from": "Field, originates when funds are received"
   },
   {
-    "Phase": "Weekly",
-    "Cycle": "Consolidation",
-    "Sequence": 1,
-    "Activity": "Consolidate and upload weekly documents in one folder",
-    "Frequency": "Weekly, Friday end of day",
-    "Channel": "One Drive",
-    "Must": "Everything received that week uploaded",
-    "Who does it": "Claudia",
-    "Receives from": "Activities 1, 4, 6, 7, 8, 9, 10, everything sent to Claudia during the week"
+    "ID": "1.1.11",
+    "Cycle": "Weekly",
+    "Stage": "Intake",
+    "Sequence": 11,
+    "Activity": "Send confirmation of draw funds received from the bank",
+    "Frequency": "In the moment",
+    "Channel": "WhatsApp or email to Claudia and Alejandro",
+    "Must": "Amount received, date, which project it relates to",
+    "Who does it": "Fernando",
+    "Receives from": "Bank, originates when draw funds are disbursed"
   },
   {
-    "Phase": "Weekly",
-    "Cycle": "Consolidation",
-    "Sequence": 2,
+    "ID": "1.1.12",
+    "Cycle": "Weekly",
+    "Stage": "Intake",
+    "Sequence": 12,
     "Activity": "Upload new subcontract agreements and change orders to One Drive",
     "Frequency": "In the moment, when received",
     "Channel": "One Drive",
     "Must": "Scope, agreed price, which project",
     "Who does it": "Claudia",
-    "Receives from": "Activity 9, change orders sent to Claudia"
+    "Receives from": "1.1.9, change orders sent to Claudia"
   },
   {
-    "Phase": "Weekly",
-    "Cycle": "BTZL Processing",
+    "ID": "1.1.13",
+    "Cycle": "Weekly",
+    "Stage": "Intake",
+    "Sequence": 13,
+    "Activity": "Consolidate and upload weekly documents in one folder",
+    "Frequency": "Weekly, Friday end of day",
+    "Channel": "One Drive",
+    "Must": "Everything received that week uploaded",
+    "Who does it": "Claudia",
+    "Receives from": "1.1.1 through 1.1.11, everything sent to Claudia during the week"
+  },
+  {
+    "ID": "1.2.1",
+    "Cycle": "Weekly",
+    "Stage": "Processing",
     "Sequence": 1,
     "Activity": "Log all received documents",
     "Frequency": "Weekly",
     "Channel": "One Drive",
     "Must": "Every document logged with date received, sender, document type",
     "Who does it": "Laura",
-    "Receives from": "Consolidation activity 1, the uploaded weekly folder"
+    "Receives from": "1.1.13, the uploaded weekly folder"
   },
   {
-    "Phase": "Weekly",
-    "Cycle": "BTZL Processing",
+    "ID": "1.2.2",
+    "Cycle": "Weekly",
+    "Stage": "Processing",
     "Sequence": 2,
     "Activity": "Classify each document into cost category and project",
     "Frequency": "Weekly",
     "Channel": "One Drive",
     "Must": "Category assigned, project assigned, no silent judgment calls on ambiguous items",
     "Who does it": "Laura",
-    "Receives from": "BTZL Processing activity 1, logged documents"
+    "Receives from": "1.2.1, logged documents"
   },
   {
-    "Phase": "Weekly",
-    "Cycle": "BTZL Processing",
+    "ID": "1.2.3",
+    "Cycle": "Weekly",
+    "Stage": "Processing",
     "Sequence": 3,
     "Activity": "Assign confidence level to each classified item",
     "Frequency": "Weekly",
     "Channel": "One Drive",
     "Must": "Every item marked Confirmed, Estimated, Flagged, or Missing, nothing left unmarked",
     "Who does it": "Laura",
-    "Receives from": "BTZL Processing activity 2, classified documents"
+    "Receives from": "1.2.2, classified documents"
   },
   {
-    "Phase": "Weekly",
-    "Cycle": "BTZL Processing",
+    "ID": "1.2.4",
+    "Cycle": "Weekly",
+    "Stage": "Processing",
     "Sequence": 4,
     "Activity": "Update SOV with actuals from the week",
     "Frequency": "Weekly",
     "Channel": "One Drive",
     "Must": "Every confirmed and estimated cost reflected against the right SOV line item",
     "Who does it": "Laura",
-    "Receives from": "BTZL Processing activity 3, confidence-rated items"
+    "Receives from": "1.2.3, confidence-rated items"
   },
   {
-    "Phase": "Weekly",
-    "Cycle": "BTZL Processing",
+    "ID": "1.2.5",
+    "Cycle": "Weekly",
+    "Stage": "Processing",
     "Sequence": 5,
     "Activity": "Assess change order impact on SOV and contingency and flag to Alejandro",
     "Frequency": "In the moment, when a new change order is identified",
     "Channel": "WhatsApp to Alejandro",
     "Must": "Change order amount, which SOV line item affected, updated contingency balance, flag if bank notification is required",
     "Who does it": "Laura",
-    "Receives from": "Consolidation activity 2, uploaded change order"
+    "Receives from": "1.1.12, uploaded change order"
   },
   {
-    "Phase": "Weekly",
-    "Cycle": "BTZL Processing",
-    "Sequence": 6,
+    "ID": "1.3.1",
+    "Cycle": "Weekly",
+    "Stage": "Weekly view",
+    "Sequence": 1,
     "Activity": "Prepare and send weekly project status summary for confirmation",
     "Frequency": "Weekly",
     "Channel": "WhatsApp or email to Brian",
     "Must": "Active SOV line items listed with current estimated percent complete, one confirmation or correction required per line",
     "Who does it": "Laura",
-    "Receives from": "BTZL Processing activity 4, updated SOV"
+    "Receives from": "1.2.4, updated SOV"
   },
   {
-    "Phase": "Weekly",
-    "Cycle": "BTZL Processing",
-    "Sequence": 7,
+    "ID": "1.3.2",
+    "Cycle": "Weekly",
+    "Stage": "Weekly view",
+    "Sequence": 2,
     "Activity": "Confirm or correct weekly project status summary",
     "Frequency": "Weekly, within 24 hours",
     "Channel": "WhatsApp or email reply",
     "Must": "One figure or confirmation per line item, no partial responses",
     "Who does it": "Brian",
-    "Receives from": "BTZL Processing activity 6, the status summary sent to Brian"
+    "Receives from": "1.3.1, the status summary sent to Brian"
   },
   {
-    "Phase": "Weekly",
-    "Cycle": "BTZL Processing",
-    "Sequence": 8,
+    "ID": "1.3.3",
+    "Cycle": "Weekly",
+    "Stage": "Weekly view",
+    "Sequence": 3,
     "Activity": "Prepare, analyze and publish weekly cash flow snapshot",
     "Frequency": "Weekly",
     "Channel": "One Drive",
     "Must": "Actuals updated, exposure gap current, confidence levels visible",
     "Who does it": "Alejandro",
-    "Receives from": "BTZL Processing activities 4 and 7, updated SOV and confirmed percent complete"
+    "Receives from": "1.3.2, confirmed percent complete, plus 1.2.4 updated SOV"
   },
   {
-    "Phase": "Weekly",
-    "Cycle": "BTZL Processing",
-    "Sequence": 9,
+    "ID": "1.3.4",
+    "Cycle": "Weekly",
+    "Stage": "Weekly view",
+    "Sequence": 4,
     "Activity": "Send weekly cash flow highlights and questions to Fernando",
     "Frequency": "Weekly",
     "Channel": "WhatsApp or email",
     "Must": "Highlights short and clear, any question requires only a yes/no or a number to confirm",
     "Who does it": "Alejandro",
-    "Receives from": "BTZL Processing activity 8, the published snapshot"
+    "Receives from": "1.3.3, the published snapshot"
   },
   {
-    "Phase": "Weekly",
-    "Cycle": "Confirmation Loop",
-    "Sequence": 1,
+    "ID": "1.3.5",
+    "Cycle": "Weekly",
+    "Stage": "Weekly view",
+    "Sequence": 5,
     "Activity": "Prepare and upload confirmation request list from ambiguous and missing items",
     "Frequency": "Weekly",
     "Channel": "One Drive",
     "Must": "Every question is yes/no or confirm a figure, no open questions",
     "Who does it": "Laura",
-    "Receives from": "BTZL Processing activities 2 and 3, ambiguous or unclassified items"
+    "Receives from": "1.2.2 and 1.2.3, ambiguous or unclassified items"
   },
   {
-    "Phase": "Weekly",
-    "Cycle": "Confirmation Loop",
-    "Sequence": 2,
+    "ID": "1.3.6",
+    "Cycle": "Weekly",
+    "Stage": "Weekly view",
+    "Sequence": 6,
     "Activity": "Review confirmation request list and resolve what is possible",
     "Frequency": "Weekly",
     "Channel": "One Drive",
     "Must": "Every item either resolved or escalated, nothing sitting unanswered",
     "Who does it": "Claudia",
-    "Receives from": "Confirmation Loop activity 1, the uploaded request list"
+    "Receives from": "1.3.5, the uploaded request list"
   },
   {
-    "Phase": "Weekly",
-    "Cycle": "Confirmation Loop",
-    "Sequence": 3,
+    "ID": "1.3.7",
+    "Cycle": "Weekly",
+    "Stage": "Weekly view",
+    "Sequence": 7,
     "Activity": "Send unresolved confirmation items to Brian or Javier for field confirmation",
     "Frequency": "Weekly",
     "Channel": "WhatsApp, iMessage",
     "Must": "Yes/no or single figure, one question per item, no context dumps",
     "Who does it": "Claudia",
-    "Receives from": "Confirmation Loop activity 2, items Claudia could not resolve herself"
+    "Receives from": "1.3.6, items Claudia could not resolve herself"
   },
   {
-    "Phase": "Weekly",
-    "Cycle": "Confirmation Loop",
-    "Sequence": 4,
+    "ID": "1.3.8",
+    "Cycle": "Weekly",
+    "Stage": "Weekly view",
+    "Sequence": 8,
     "Activity": "Escalate unresolved items to Fernando",
     "Frequency": "Weekly",
     "Channel": "WhatsApp or email, short numbered list",
     "Must": "Yes/no or confirm a figure, 48 hour response expectation, flag any concerns",
     "Who does it": "Claudia",
-    "Receives from": "Confirmation Loop activities 2 and 3, items still unresolved after field check"
+    "Receives from": "1.3.6 and 1.3.7, items still unresolved after field check"
   },
   {
-    "Phase": "Weekly",
-    "Cycle": "Confirmation Loop",
-    "Sequence": 5,
+    "ID": "1.3.9",
+    "Cycle": "Weekly",
+    "Stage": "Weekly view",
+    "Sequence": 9,
     "Activity": "Respond to confirmation request list",
     "Frequency": "Within 48 hours",
     "Channel": "WhatsApp or email reply",
     "Must": "Yes/no or figure for each item, no partial responses",
     "Who does it": "Fernando",
-    "Receives from": "Confirmation Loop activity 4, the escalated list"
+    "Receives from": "1.3.8, the escalated list"
   },
   {
-    "Phase": "Weekly",
-    "Cycle": "Confirmation Loop",
-    "Sequence": 6,
+    "ID": "1.3.10",
+    "Cycle": "Weekly",
+    "Stage": "Weekly view",
+    "Sequence": 10,
     "Activity": "Update classified items with confirmed responses",
     "Frequency": "Weekly, as responses arrive",
     "Channel": "One Drive",
     "Must": "Every confirmed response updates the item status from flagged or estimated to confirmed",
     "Who does it": "Laura",
-    "Receives from": "Confirmation Loop activity 5, Fernando's responses, also activity 3 field responses"
+    "Receives from": "1.3.9, Fernando's responses, also 1.3.7 field responses"
   },
   {
-    "Phase": "Monthly",
-    "Cycle": "Draw Package Assembly",
+    "ID": "2.1.1",
+    "Cycle": "Monthly",
+    "Stage": "Financial Analysis Package Assembly",
     "Sequence": 1,
     "Activity": "Compile four weeks of classified documents into monthly draw summary",
     "Frequency": "Monthly, by the 18th",
     "Channel": "One Drive",
     "Must": "Every cost categorized, every item has a confidence level, SOV updated",
     "Who does it": "Laura",
-    "Receives from": "Four weeks of BTZL Processing and Confirmation Loop activities"
+    "Receives from": "Four weeks of 1.2 Processing and 1.3 Weekly view"
   },
   {
-    "Phase": "Monthly",
-    "Cycle": "Draw Package Assembly",
+    "ID": "2.1.2",
+    "Cycle": "Monthly",
+    "Stage": "Financial Analysis Package Assembly",
     "Sequence": 2,
     "Activity": "Update Schedule of Values with month's actuals and percent complete",
     "Frequency": "Monthly, by the 18th",
     "Channel": "One Drive",
     "Must": "Every SOV line item reflects cumulative actuals to date, percent complete confirmed by Brian",
     "Who does it": "Laura",
-    "Receives from": "Draw Package Assembly activity 1, the compiled summary"
+    "Receives from": "2.1.1, the compiled summary"
   },
   {
-    "Phase": "Monthly",
-    "Cycle": "Draw Package Assembly",
+    "ID": "2.1.3",
+    "Cycle": "Monthly",
+    "Stage": "Financial Analysis Package Assembly",
     "Sequence": 3,
     "Activity": "Identify any change orders not yet reflected in the SOV",
     "Frequency": "Monthly, by the 18th",
     "Channel": "One Drive",
     "Must": "Every cost with no matching SOV line item flagged and documented",
     "Who does it": "Laura",
-    "Receives from": "Draw Package Assembly activity 2, updated SOV, cross-checked against weekly change order flags"
+    "Receives from": "2.1.2, updated SOV, cross-checked against weekly change order flags"
   },
   {
-    "Phase": "Monthly",
-    "Cycle": "Draw Package Assembly",
+    "ID": "2.1.4",
+    "Cycle": "Monthly",
+    "Stage": "Financial Analysis Package Assembly",
     "Sequence": 4,
     "Activity": "Prepare change order documentation for bank if required",
     "Frequency": "In the moment, when change order exceeds contingency",
     "Channel": "One Drive",
     "Must": "Change order amount, scope description, which SOV line item affected, whether contingency covers it",
     "Who does it": "Laura",
-    "Receives from": "Draw Package Assembly activity 3, identified change orders, also BTZL Processing activity 5"
+    "Receives from": "2.1.3, identified change orders, also 1.2.5"
   },
   {
-    "Phase": "Monthly",
-    "Cycle": "Draw Package Assembly",
+    "ID": "2.1.5",
+    "Cycle": "Monthly",
+    "Stage": "Financial Analysis Package Assembly",
     "Sequence": 5,
     "Activity": "Confirm lien waiver received for every sub and supplier paid in the period",
     "Frequency": "Monthly, by the 19th",
     "Channel": "One Drive",
     "Must": "Every payment in the period has a matching lien waiver, missing waivers flagged before draw package is assembled",
     "Who does it": "Laura",
-    "Receives from": "Draw Package Assembly activity 1, the period's payments"
+    "Receives from": "2.1.1, the period's payments"
   },
   {
-    "Phase": "Monthly",
-    "Cycle": "Draw Package Assembly",
+    "ID": "2.1.6",
+    "Cycle": "Monthly",
+    "Stage": "Financial Analysis Package Assembly",
     "Sequence": 6,
-    "Activity": "Assemble full draw package",
-    "Frequency": "Monthly, by the 20th",
-    "Channel": "One Drive",
-    "Must": "Updated SOV, draw request form, all supporting invoices, lien waivers, photos, inspection certificates",
-    "Who does it": "Laura",
-    "Receives from": "Draw Package Assembly activities 2, 4, 5"
-  },
-  {
-    "Phase": "Monthly",
-    "Cycle": "Draw Package Assembly",
-    "Sequence": 7,
-    "Activity": "Send draft draw package to Fernando for review",
-    "Frequency": "Monthly, by the 20th",
-    "Channel": "One Drive",
-    "Must": "Complete package, summary cover page, items requiring Fernando's attention clearly flagged, Fernando receives 48 hours before review meeting",
-    "Who does it": "Laura",
-    "Receives from": "Draw Package Assembly activity 6, the assembled package"
-  },
-  {
-    "Phase": "Monthly",
-    "Cycle": "Review and Submission",
-    "Sequence": 1,
-    "Activity": "Review draft draw package",
-    "Frequency": "Monthly, 30 minute meeting by the 22nd",
-    "Channel": "In person or Teams",
-    "Must": "Fernando receives package 48 hours before meeting, meeting is for questions and signature only, no first time reviews in the meeting",
-    "Who does it": "Fernando",
-    "Receives from": "Draw Package Assembly activity 7, the draft package sent for review"
-  },
-  {
-    "Phase": "Monthly",
-    "Cycle": "Review and Submission",
-    "Sequence": 2,
-    "Activity": "Sign and submit draw package to the bank",
-    "Frequency": "Monthly, by the 23rd",
-    "Channel": "Bank submission process",
-    "Must": "Fernando's signature, complete package, submitted before bank deadline",
-    "Who does it": "Fernando",
-    "Receives from": "Review and Submission activity 1, the reviewed package"
-  },
-  {
-    "Phase": "Monthly",
-    "Cycle": "Reporting and Analysis",
-    "Sequence": 1,
     "Activity": "Produce monthly cash flow report",
     "Frequency": "Monthly, by the 22nd",
     "Channel": "One Drive",
     "Must": "Actuals to date, forward projections, exposure gap, next draw estimate, confidence levels visible",
     "Who does it": "Laura",
-    "Receives from": "Draw Package Assembly activities, plus the four weekly cash flow snapshots"
+    "Receives from": "2.1.2, updated SOV, plus the four weekly cash flow snapshots"
   },
   {
-    "Phase": "Monthly",
-    "Cycle": "Reporting and Analysis",
+    "ID": "2.2.1",
+    "Cycle": "Monthly",
+    "Stage": "Reporting and Analysis",
+    "Sequence": 1,
+    "Activity": "Monthly portfolio review and financial analysis presentation",
+    "Frequency": "Monthly, pre-scheduled",
+    "Channel": "In person with Teams for hybrid participation",
+    "Must": "Portfolio status and forecasted cash flow snapshot reviewed, open items resolved, Fernando aligned on next month's outlook",
+    "Who does it": "Alejandro",
+    "Receives from": "2.1.6, the monthly cash flow report"
+  },
+  {
+    "ID": "2.2.2",
+    "Cycle": "Monthly",
+    "Stage": "Reporting and Analysis",
     "Sequence": 2,
     "Activity": "Flag any exposure gaps or risks requiring a decision",
     "Frequency": "Monthly, as part of cash flow report",
     "Channel": "One Drive, escalate to Fernando via WhatsApp or email if decision required",
     "Must": "Gap amount, cause, options available, recommended action and deadline",
     "Who does it": "Laura",
-    "Receives from": "Reporting and Analysis activity 1, the monthly cash flow report"
+    "Receives from": "2.2.1, the portfolio review discussion"
   },
   {
-    "Phase": "Monthly",
-    "Cycle": "Reporting and Analysis",
+    "ID": "2.2.3",
+    "Cycle": "Monthly",
+    "Stage": "Reporting and Analysis",
     "Sequence": 3,
-    "Activity": "Log draw disbursement and update loan balance",
-    "Frequency": "Monthly, when draw is received from bank",
+    "Activity": "Assemble full draw package",
+    "Frequency": "Monthly, by the 20th",
     "Channel": "One Drive",
-    "Must": "Draw amount received, date received, updated loan balance, updated exposure gap, remaining loan availability",
+    "Must": "Updated SOV, draw request form, all supporting invoices, lien waivers, photos, inspection certificates",
     "Who does it": "Laura",
-    "Receives from": "Review and Submission activity 2, the submitted and approved draw"
+    "Receives from": "2.1.2, 2.1.4, 2.1.5, plus 2.2.2"
   },
   {
-    "Phase": "Monthly",
-    "Cycle": "Reporting and Analysis",
+    "ID": "2.2.4",
+    "Cycle": "Monthly",
+    "Stage": "Reporting and Analysis",
     "Sequence": 4,
-    "Activity": "Monthly portfolio review and financial analysis presentation",
-    "Frequency": "Monthly, pre-scheduled",
-    "Channel": "In person with Teams for hybrid participation",
-    "Must": "Portfolio status and forecasted cash flow snapshot reviewed, open items resolved, Fernando aligned on next month's outlook",
-    "Who does it": "Alejandro",
-    "Receives from": "Reporting and Analysis activities 1, 2, 3, the full monthly picture"
+    "Activity": "Send draft draw package to Fernando for review",
+    "Frequency": "Monthly, by the 20th",
+    "Channel": "One Drive",
+    "Must": "Complete package, summary cover page, items requiring Fernando's attention clearly flagged, Fernando receives 48 hours before review meeting",
+    "Who does it": "Laura",
+    "Receives from": "2.2.3, the assembled package"
+  },
+  {
+    "ID": "2.2.5",
+    "Cycle": "Monthly",
+    "Stage": "Reporting and Analysis",
+    "Sequence": 5,
+    "Activity": "Review draft draw package",
+    "Frequency": "Monthly, 30 minute meeting by the 22nd",
+    "Channel": "In person or Teams",
+    "Must": "Fernando receives package 48 hours before meeting, meeting is for questions and signature only, no first time reviews in the meeting",
+    "Who does it": "Fernando",
+    "Receives from": "2.2.4, the draft package sent for review"
+  },
+  {
+    "ID": "2.2.6",
+    "Cycle": "Monthly",
+    "Stage": "Reporting and Analysis",
+    "Sequence": 6,
+    "Activity": "Sign and submit draw package to the bank",
+    "Frequency": "Monthly, by the 23rd",
+    "Channel": "Bank submission process",
+    "Must": "Fernando's signature, complete package, submitted before bank deadline",
+    "Who does it": "Fernando",
+    "Receives from": "2.2.5, the reviewed package"
   }
 ]
