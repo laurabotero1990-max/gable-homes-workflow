@@ -1474,21 +1474,20 @@ function buildDebtSummary() {
     byLender[r.Lender].push(r);
   });
 
-  const headers = ['Lender', 'Project', 'Loan amount', 'Drawn to date', 'Available to draw', 'Interest rate'];
-  const groupedRows = Object.entries(byLender).map(([lender, rows]) => ({
+  const groups = Object.entries(byLender).map(([lender, rows]) => ({
     groupName: lender,
-    rows: rows.map(r => [
-      r.Project,
-      fmt$(r['Loan Amount']),
-      fmt$(r['Drawn to Date']),
-      fmt$(r['Available to Draw']),
-      fmtRate(r['Interest Rate']),
-    ]),
+    cards: rows.map(r => ({
+      header: r.Project,
+      fields: [
+        { label: 'Loan amount',       value: fmt$(r['Loan Amount']) },
+        { label: 'Drawn to date',     value: fmt$(r['Drawn to Date']) },
+        { label: 'Available to draw', value: fmt$(r['Available to Draw']) },
+        { label: 'Interest rate',     value: fmtRate(r['Interest Rate']) },
+      ],
+    })),
   }));
 
-  const wrap = document.createElement('div');
-  wrap.appendChild(buildSummaryTable(headers, groupedRows));
-  return wrap;
+  return buildGroupedCards(groups);
 }
 
 function buildInvestorSummary() {
@@ -1498,21 +1497,21 @@ function buildInvestorSummary() {
     byInvestor[r.Investor].push(r);
   });
 
-  const headers = ['Investor', 'Project', 'Amount committed', 'Amount invested', 'Profit share', 'Capital returned'];
-  const groupedRows = Object.entries(byInvestor).map(([investor, rows]) => ({
+  const groups = Object.entries(byInvestor).map(([investor, rows]) => ({
     groupName: investor,
-    rows: rows.map(r => [
-      r.Project,
-      fmt$(r['Amount Committed']),
-      fmt$(r['Amount Invested']),
-      fmtPct(r['Profit Share']),
-      fmt$(r['Capital Returned to Date']),
-    ]),
+    cards: rows.map(r => ({
+      header: r.Project,
+      fields: [
+        { label: 'Amount committed', value: fmt$(r['Amount Committed']) },
+        { label: 'Amount invested',  value: fmt$(r['Amount Invested']) },
+        { label: 'Profit share',     value: fmtPct(r['Profit Share']) },
+        { label: 'Capital returned', value: fmt$(r['Capital Returned to Date']) },
+        { label: 'Projected return', value: r['Projected Return'] || '—' },
+      ],
+    })),
   }));
 
-  const wrap = document.createElement('div');
-  wrap.appendChild(buildSummaryTable(headers, groupedRows));
-  return wrap;
+  return buildGroupedCards(groups);
 }
 
 function buildDetailCollapsible(title, contentEl, startOpen = false) {
