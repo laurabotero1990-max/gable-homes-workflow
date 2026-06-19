@@ -1388,7 +1388,6 @@ function buildCollapsible(title, contentBuilder) {
 }
 
 function buildGroupedCards(groups) {
-  // groups: [{groupName, cards: [{header, fields: [{label, value}]}]}]
   const wrap = document.createElement('div');
   wrap.style.cssText = 'margin-top:12px;';
 
@@ -1430,6 +1429,44 @@ function buildGroupedCards(groups) {
   return wrap;
 }
 
+function buildSummaryTable(headers, groupedRows) {
+  const tableWrap = document.createElement('div');
+  tableWrap.style.cssText = 'margin-top:12px; border:1px solid var(--border); border-radius:var(--radius); overflow:hidden; background:var(--white);';
+
+  const table = document.createElement('table');
+  table.className = 'sov-table';
+  table.style.width = '100%';
+
+  const thead = document.createElement('thead');
+  thead.innerHTML = '<tr>' + headers.map((h, i) =>
+    `<th class="${i >= 2 ? 'num' : ''}">${h}</th>`
+  ).join('') + '</tr>';
+  table.appendChild(thead);
+
+  const tbody = document.createElement('tbody');
+  groupedRows.forEach(({ groupName, rows }) => {
+    rows.forEach((cells, i) => {
+      const tr = document.createElement('tr');
+      // first cell: group name only on first row
+      const tdGroup = document.createElement('td');
+      tdGroup.style.cssText = 'font-weight:600; color:var(--ink); white-space:nowrap;';
+      tdGroup.textContent = i === 0 ? groupName : '';
+      tr.appendChild(tdGroup);
+      cells.forEach((val, ci) => {
+        const td = document.createElement('td');
+        td.className = ci >= 1 ? 'num' : '';
+        td.textContent = val;
+        tr.appendChild(td);
+      });
+      tbody.appendChild(tr);
+    });
+  });
+
+  table.appendChild(tbody);
+  tableWrap.appendChild(table);
+  return tableWrap;
+}
+
 function buildDebtSummary() {
   const byLender = {};
   PORTFOLIO['Debt Profile'].forEach(r => {
@@ -1437,20 +1474,21 @@ function buildDebtSummary() {
     byLender[r.Lender].push(r);
   });
 
-  const groups = Object.entries(byLender).map(([lender, rows]) => ({
+  const headers = ['Lender', 'Project', 'Loan amount', 'Drawn to date', 'Available to draw', 'Interest rate'];
+  const groupedRows = Object.entries(byLender).map(([lender, rows]) => ({
     groupName: lender,
-    cards: rows.map(r => ({
-      header: r.Project,
-      fields: [
-        { label: 'Loan amount',       value: fmt$(r['Loan Amount']) },
-        { label: 'Drawn to date',     value: fmt$(r['Drawn to Date']) },
-        { label: 'Available to draw', value: fmt$(r['Available to Draw']) },
-        { label: 'Interest rate',     value: fmtRate(r['Interest Rate']) },
-      ],
-    })),
+    rows: rows.map(r => [
+      r.Project,
+      fmt$(r['Loan Amount']),
+      fmt$(r['Drawn to Date']),
+      fmt$(r['Available to Draw']),
+      fmtRate(r['Interest Rate']),
+    ]),
   }));
 
-  return buildGroupedCards(groups);
+  const wrap = document.createElement('div');
+  wrap.appendChild(buildSummaryTable(headers, groupedRows));
+  return wrap;
 }
 
 function buildInvestorSummary() {
@@ -1460,21 +1498,21 @@ function buildInvestorSummary() {
     byInvestor[r.Investor].push(r);
   });
 
-  const groups = Object.entries(byInvestor).map(([investor, rows]) => ({
+  const headers = ['Investor', 'Project', 'Amount committed', 'Amount invested', 'Profit share', 'Capital returned'];
+  const groupedRows = Object.entries(byInvestor).map(([investor, rows]) => ({
     groupName: investor,
-    cards: rows.map(r => ({
-      header: r.Project,
-      fields: [
-        { label: 'Amount committed', value: fmt$(r['Amount Committed']) },
-        { label: 'Amount invested',  value: fmt$(r['Amount Invested']) },
-        { label: 'Profit share',     value: fmtPct(r['Profit Share']) },
-        { label: 'Capital returned', value: fmt$(r['Capital Returned to Date']) },
-        { label: 'Projected return', value: r['Projected Return'] || '—' },
-      ],
-    })),
+    rows: rows.map(r => [
+      r.Project,
+      fmt$(r['Amount Committed']),
+      fmt$(r['Amount Invested']),
+      fmtPct(r['Profit Share']),
+      fmt$(r['Capital Returned to Date']),
+    ]),
   }));
 
-  return buildGroupedCards(groups);
+  const wrap = document.createElement('div');
+  wrap.appendChild(buildSummaryTable(headers, groupedRows));
+  return wrap;
 }
 
 function buildDetailCollapsible(title, contentEl, startOpen = false) {
